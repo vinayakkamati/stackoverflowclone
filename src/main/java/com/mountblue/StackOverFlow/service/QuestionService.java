@@ -1,4 +1,4 @@
 package com.mountblue.StackOverFlow.service;
 
-public interface QuestionService {
+public class QuestionService {
 }
