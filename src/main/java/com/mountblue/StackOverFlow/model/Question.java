@@ -9,7 +9,7 @@ public class Question {
     @Id
     @Column(name = "question_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int questionId;
+    private Integer questionId;
 
     @Column(name = "title")
     private String  title;
