@@ -2,6 +2,7 @@ package com.mountblue.StackOverFlow.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(	name = "users",
@@ -35,16 +36,46 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Collection<Role> roles;
 
+    @OneToMany(mappedBy = "author", cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Question> questions;
+
+    @OneToMany(mappedBy = "author", cascade = {
+            CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    private List<Answer> answers;
+
+
     public User() {
     }
 
-    public User(int userId, String name, String email, String password, int reputation, Collection<Role> roles) {
+    public User(int userId, String name, String email, String password, int reputation, Collection<Role> roles,
+                List<Question> questions, List<Answer> answers) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.reputation = reputation;
         this.roles = roles;
+        this.questions = questions;
+        this.answers = answers;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     public int getUserId() {

@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "answers")
@@ -32,14 +33,39 @@ public class Answer {
     List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(cascade =CascadeType.ALL)
-    @JoinColumn(name = "question_id", nullable = true)
+    @JoinColumn(name = "question_id")
     private Question question;
+
+    @ManyToOne(cascade =CascadeType.ALL)
+    @JoinColumn(name = "user_id ")
+    private User  author;
+
+
+    @Column(name = "is_accepted")
+    private Boolean isAccepted = false;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "positive_votes",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> positiveVotes;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "negative_votes",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> negativeVotes;
 
     public Answer() {
     }
 
-    public Answer(Integer answerId, String content, Date createTime, String userName, String email,
-                  List<Comment> comments, Question question) {
+    public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<Comment> comments, Question question, User author,
+                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
         this.answerId = answerId;
         this.content = content;
         this.createTime = createTime;
@@ -47,6 +73,42 @@ public class Answer {
         this.email = email;
         this.comments = comments;
         this.question = question;
+        this.author = author;
+        this.isAccepted = isAccepted;
+        this.positiveVotes = positiveVotes;
+        this.negativeVotes = negativeVotes;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public Set<User> getPositiveVotes() {
+        return positiveVotes;
+    }
+
+    public void setPositiveVotes(Set<User> positiveVotes) {
+        this.positiveVotes = positiveVotes;
+    }
+
+    public Set<User> getNegativeVotes() {
+        return negativeVotes;
+    }
+
+    public void setNegativeVotes(Set<User> negativeVotes) {
+        this.negativeVotes = negativeVotes;
     }
 
     public Integer getAnswerId() {

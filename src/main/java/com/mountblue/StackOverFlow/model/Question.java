@@ -57,9 +57,9 @@ public class Question {
     @Column(name = "updated_at")
     private Date updateDate = null;
 
-  /*  @OneToMany(mappedBy = "question",
+    @OneToMany(mappedBy = "question",
             cascade = {CascadeType.REMOVE})
-    List<Comment> comments = new ArrayList<>();*/
+    List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question",
             cascade = CascadeType.ALL)
@@ -71,18 +71,44 @@ public class Question {
             inverseJoinColumns = { @JoinColumn (name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
+
+    @ManyToOne(cascade =CascadeType.ALL)
+    @JoinColumn(name = "user_id ")
+    private User  author;
+
     public Question() {
     }
 
-    public Question(Integer questionId, String title, String description, int viewCount, int voteCount,
-                    Date createDate, Date updateDate) {
+    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<Comment> comments,
+                    List<Answer> answers, Set<Tag> tags, User author) {
         this.questionId = questionId;
         this.title = title;
         this.description = description;
         this.viewCount = viewCount;
         this.voteCount = voteCount;
         this.createDate = createDate;
+        this.tag = tag;
         this.updateDate = updateDate;
+        this.comments = comments;
+        this.answers = answers;
+        this.tags = tags;
+        this.author = author;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 
     public Integer getQuestionId() {
