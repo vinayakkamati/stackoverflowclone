@@ -8,4 +8,6 @@ public interface QuestionService {
     public Question save(Question question);
 
     List<Question> getAllQuestions();
+
+    Question getQuestionById(Integer questionId);
 }

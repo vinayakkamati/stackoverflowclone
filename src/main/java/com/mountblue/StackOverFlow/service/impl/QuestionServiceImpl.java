@@ -6,6 +6,7 @@ import com.mountblue.StackOverFlow.service.QuestionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class QuestionServiceImpl implements QuestionService {
@@ -23,5 +24,18 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public List<Question> getAllQuestions() {
         return questionRepository.findAll();
+    }
+
+    @Override
+    public Question getQuestionById(Integer questionId) {
+        Optional<Question> optional = questionRepository.findById(questionId);
+        Question question = null;
+
+        if (optional.isPresent()) {
+            question = optional.get();
+        } else {
+            throw new RuntimeException("Post not found!");
+        }
+        return question;
     }
 }

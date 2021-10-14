@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Question</title>
+</head>
+<body>
+<form th:action="@{'/question/edit/' + ${question.questionId}}" th:object="${question}" method="post">
+  <input type="number" th:field="*{questionId}" disabled>
+  <input type="text" th:field="*{title}">
+  <input type="text" th:field="*{description}">
+  <input type="text" th:field="*{tag}">
+  <input type="submit" value="Post Again">
+</form>
+</body>
+</html>

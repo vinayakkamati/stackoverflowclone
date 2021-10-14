@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Question</title>
+</head>
+<body>
+<h2>[[${question.title}]]</h2>
+<p>[[${question.description}]]</p>
+<button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>
+<form th:action="@{'/question/delete/' + ${question.questionId}}">
+    <!--        <input type="hidden" name="username" th:value="${user.email}">-->
+
+    <input type="submit" value="Delete">
+</form>
+</body>
+</html>

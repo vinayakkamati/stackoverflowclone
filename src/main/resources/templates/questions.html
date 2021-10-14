@@ -16,7 +16,7 @@ SAVED SUCCESSFULLY
     <tbody>
     <th:block th:each="question : ${listQuestions}">
         <tr>
-            <td><a th:href="@{/questions/{id}(${question.questionId})}">[[${question.title}]]</a></td>
+            <td><a th:href="@{/questions/{id}(id=${question.questionId})}">[[${question.title}]]</a></td>
             <td th:text="${question.description}"></td>
         </tr>
     </th:block>
