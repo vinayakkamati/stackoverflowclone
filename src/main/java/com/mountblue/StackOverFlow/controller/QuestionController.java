@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class QuestionController {
 
@@ -26,6 +29,16 @@ public class QuestionController {
 
         questionService.save(question);
         return "redirect:/new";
+    }
+
+    @GetMapping("/questions")
+    public String showQuestions(Model model) {
+        List<Question> listQuestions = questionService.getAllQuestions();
+
+        model.addAttribute("listQuestions", listQuestions);
+
+
+        return "questions";
     }
 }
 
