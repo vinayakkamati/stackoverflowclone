@@ -6,6 +6,7 @@ import java.util.*;
 @Entity
 @Table(name = "questions")
 public class Question {
+
     @Id
     @Column(name = "question_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,14 +14,46 @@ public class Question {
 
     @Column(name = "title")
     private String  title;
-    @Column(name = " description " ,length = 10485760)
+
+    @Column(name = "description", columnDefinition = "text")
     private String description;
-    @Column(name ="view_counts")
+
+    @Column(name = "view_counts")
     private int viewCount;
+
     @Column(name = "vote_counts")
     private int voteCount;
+
     @Column(name = "created_at")
-    private Date  createDate=null;
+    private Date  createDate = null;
+
+    @Column(name = "que_tag")
+    private String tag;
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     @Column(name = "updated_at")
     private Date updateDate = null;
 
@@ -41,7 +74,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(int questionId, String title, String description, int viewCount, int voteCount,
+    public Question(Integer questionId, String title, String description, int viewCount, int voteCount,
                     Date createDate, Date updateDate) {
         this.questionId = questionId;
         this.title = title;
@@ -52,11 +85,11 @@ public class Question {
         this.updateDate = updateDate;
     }
 
-    public int getQuestionId() {
+    public Integer getQuestionId() {
         return questionId;
     }
 
-    public void setQuestionId(int questionId) {
+    public void setQuestionId(Integer questionId) {
         this.questionId = questionId;
     }
 

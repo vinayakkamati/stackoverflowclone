@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
 </head>
 <body>
-<form action="/new">
+<form th:action="@{/postQuestion}" th:object="${question}" method="post">
     <label>Question Title</label>
-    <input type="text" name="title" placeholder="type your question here">
+    <input type="text" name="title" th:field="*{title}" placeholder="type your question here">
     <br>
     <label>Question Body</label>
-    <textarea name="body" placeholder="describe more here" rows="10" cols="20"></textarea>
+    <textarea name="body" th:field="*{description}" placeholder="describe more here" rows="10" cols="20"></textarea>
     <br>
     <label>Tags</label>
-    <input type="text" name="tags" placeholder="assign tags related to title">
+    <input type="text" name="tags" th:field="*{tag}" placeholder="assign tags related to title">
     <br>
-    <input type="submit">
+    <button type="submit">Post Question</button>
 </form>
 </body>
 </html>

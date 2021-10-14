@@ -1,7 +1,5 @@
 package com.mountblue.StackOverFlow.model;
 
-
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,6 +15,7 @@ public class Comment {
 
     @Column(name = "user_name")
     private String userName;
+
     @Column(name = "email")
     private String email;
     @Column(name = "create_date")
