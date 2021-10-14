@@ -10,4 +10,6 @@ public interface QuestionService {
     List<Question> getAllQuestions();
 
     Question getQuestionById(Integer questionId);
+
+    void deletePostById(Integer questionId);
 }

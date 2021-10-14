@@ -30,7 +30,7 @@ public class QuestionController {
     public String saveQuestion(@ModelAttribute("question") Question question) {
 
         questionService.save(question);
-        return "questions";
+        return "redirect:/questions";
     }
 
     @GetMapping("/questions")
@@ -75,6 +75,12 @@ public class QuestionController {
             editView.addObject("question", question);
         }
         return editView;
+    }
+
+    @GetMapping("/question/delete/{questionId}")
+    public String deleteQuestion(@PathVariable(value = "questionId") Integer questionId) {
+        questionService.deletePostById(questionId);
+        return "redirect:/questions";
     }
 }
 

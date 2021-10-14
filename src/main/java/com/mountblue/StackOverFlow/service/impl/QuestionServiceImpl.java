@@ -38,4 +38,9 @@ public class QuestionServiceImpl implements QuestionService {
         }
         return question;
     }
+
+    @Override
+    public void deletePostById(Integer questionId) {
+        this.questionRepository.deleteById(questionId);
+    }
 }
