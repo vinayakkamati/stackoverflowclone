@@ -19,12 +19,12 @@ public class Comment {
     private String userName;
     @Column(name = "email")
     private String email;
-    @Column(name = "column")
+    @Column(name = "create_date")
     private Date createDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+  /*  @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id", nullable = true)
-    private Question question;
+    private Question question;*/
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "answer_id", nullable = true)
@@ -34,13 +34,13 @@ public class Comment {
     }
 
     public Comment(Integer commentId, String content, String userName, String email, Date createDate,
-                   Question question, Answer answer) {
+                    Answer answer) {
         this.commentId = commentId;
         this.content = content;
         this.userName = userName;
         this.email = email;
         this.createDate = createDate;
-        this.question = question;
+       // this.question = question;
         this.answer = answer;
     }
 
@@ -92,11 +92,11 @@ public class Comment {
         this.createDate = createDate;
     }
 
-    public Question getQuestion() {
+  /*  public Question getQuestion() {
         return question;
     }
 
     public void setQuestion(Question question) {
         this.question = question;
-    }
+    }*/
 }

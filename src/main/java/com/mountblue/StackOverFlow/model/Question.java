@@ -17,16 +17,16 @@ public class Question {
     private String description;
     @Column(name ="view_counts")
     private int viewCount;
-    @Column(name = "view_counts")
+    @Column(name = "vote_counts")
     private int voteCount;
     @Column(name = "created_at")
     private Date  createDate=null;
     @Column(name = "updated_at")
     private Date updateDate = null;
 
-    @OneToMany(mappedBy = "question",
+  /*  @OneToMany(mappedBy = "question",
             cascade = {CascadeType.REMOVE})
-    List<Comment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();*/
 
     @OneToMany(mappedBy = "question",
             cascade = CascadeType.ALL)
