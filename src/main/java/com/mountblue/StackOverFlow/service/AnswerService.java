@@ -7,5 +7,5 @@ public interface AnswerService {
 
     Answer getAnswerById(Integer answerId);
 
-    void deletePostById(Integer answerId);
+    void deleteAnswerById(Integer answerId);
 }

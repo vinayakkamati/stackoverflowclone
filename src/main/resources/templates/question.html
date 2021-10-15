@@ -15,13 +15,26 @@
 </form>
 <br>
 
-<div th:each="answer:${question.answers}">
-    <div>
-        <h3>[[${answer.content}]]</h3>
-    </div>
-</div>
-<br>
+<section>
+    <th:block th:each="answer:${question.answers}">
+        <div th:if="${answer}!=null">
+              <p th:text="${answer.content}"></p>
+            <div>
+                <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
+                    <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                    <input type="submit" value="Edit Answer"/>
+                </form>
+                <form th:action="@{'/deleteAnswer/'+${answer.answerId}}" method="get">
+                    <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                    <input type="submit" value="Delete Answer"/>
+                </form>
 
+            </div>
+        </div>
+    </th:block>
+</section>
+
+<br>
 <div>
     <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post">
         <label th:for="answer-content">Your Answer</label><br>

@@ -50,6 +50,12 @@ public class QuestionController {
         return "question";
     }
 
+    public String showQuestion(Integer questionId, Model model) {
+        Question question = questionService.getQuestionById(questionId);
+        model.addAttribute("question", question);
+        return "question";
+    }
+
     @PostMapping("/question/edit/{questionId}")
     public String editQuestion(@PathVariable(value = "questionId") Integer questionId,
                            @RequestParam("title") String title,

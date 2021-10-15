@@ -6,11 +6,15 @@
 </head>
 <body>
 <form th:action="@{'/question/edit/' + ${question.questionId}}" th:object="${question}" method="post">
-  <input type="number" th:field="*{questionId}" disabled>
-  <input type="text" th:field="*{title}">
-  <input type="text" th:field="*{description}">
-  <input type="text" th:field="*{tag}">
-  <input type="submit" value="Post Again">
+    <input type="number" th:field="*{questionId}" disabled>
+    <br>
+    <input type="text" th:field="*{title}">
+    <br>
+    <textarea type="text" th:field="*{description}" rows="50" cols="50"></textarea>
+    <br>
+    <input type="text" th:field="*{tag}">
+    <br>
+    <input type="submit" value="Post Again">
 </form>
 </body>
 </html>

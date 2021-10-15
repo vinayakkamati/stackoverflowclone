@@ -36,32 +36,35 @@ public class AnswerController {
         return "redirect:/questions";
     }
 
-    @PostMapping("/question/edit/{answerId}")
-    public String editQuestion(@PathVariable(value = "questionId") Integer answerId,
-                               @RequestParam("content") String content,
+    @PostMapping("/editAnswer/{answerId}")
+    public String editAnswer(@PathVariable(value = "answerId") Integer answerId,
+                               @RequestParam("questionId") Integer questionId,
+                               @ModelAttribute("answer") Answer answer,
                                Model model) {
-        Answer answer = answerService.getAnswerById(answerId);
-        answer.setContent(content);
-        answerService.save(answer);
-
-        return questionController.getSelectedQuestion(answerId, model);
+        Answer prevAns = answerService.getAnswerById(answerId);
+        prevAns.setContent(answer.getContent());
+        answerService.save(prevAns);
+        return questionController.showQuestion(questionId, model);
     }
 
-    @GetMapping("/update/{answerId}")
-    public ModelAndView updateAnswer(@PathVariable(name = "answerId") Integer answerId){
+    @GetMapping("/updateAnswer/{answerId}")
+    public ModelAndView updateAnswer(@PathVariable(name = "answerId") Integer answerId, @RequestParam("questionId")Integer questionId){
         ModelAndView editView = new ModelAndView("editanswer");
         if(answerId != null) {
             Answer answer = answerService.getAnswerById(answerId);
             answer.setAnswerId(answerId);
             editView.addObject("answer", answer);
+            editView.addObject("quesId", questionId);
         }
         return editView;
     }
 
-    @GetMapping("/question/delete/{answerId}")
-    public String deleteAnswer(@PathVariable(value = "answerId") Integer answerId) {
-        answerService.deletePostById(answerId);
-        return "redirect:/question";
+    @GetMapping("/deleteAnswer/{answerId}")
+    public String deleteAnswer(@PathVariable(value = "answerId") Integer answerId,@RequestParam("questionId")Integer questionId,
+                               Model model) {
+
+        answerService.deleteAnswerById(answerId);
+        return questionController.showQuestion(questionId, model);
     }
 
 }

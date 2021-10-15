@@ -36,7 +36,7 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void deletePostById(Integer answerId) {
+    public void deleteAnswerById(Integer answerId) {
         this.answerRepository.deleteById(answerId);
     }
 }

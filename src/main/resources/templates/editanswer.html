@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Answer</title>
+</head>
+<body>
+<form th:action="@{'/editAnswer/' + ${answer.answerId}}" th:object="${answer}" method="post">
+    <input type="hidden" name="questionId" th:value="${quesId}"/>
+
+    <br>
+    <textarea th:field="*{content}" rows="50" cols="50"></textarea>
+    <br>
+    <input type="submit" value="Post Again">
+</form>
+</body>
+</html>

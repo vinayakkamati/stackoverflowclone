@@ -33,7 +33,8 @@ public class Answer {
             cascade = CascadeType.ALL)
     List<Comment> comments = new ArrayList<>();
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "question_id")
     private Question question;
 
