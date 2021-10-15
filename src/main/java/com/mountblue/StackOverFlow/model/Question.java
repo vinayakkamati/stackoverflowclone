@@ -30,14 +30,12 @@ public class Question {
     @Column(name = "que_tag")
     private String tag;
 
-
-
     @Column(name = "updated_at")
     private Date updateDate = null;
 
     @OneToMany(mappedBy = "question",
             cascade = {CascadeType.REMOVE})
-    List<Comment> comments = new ArrayList<>();
+    List<QuesComment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "question",
             cascade = CascadeType.ALL)
@@ -57,7 +55,7 @@ public class Question {
     public Question() {
     }
 
-    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<Comment> comments,
+    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments,
                     List<Answer> answers, Set<Tag> tags, User author) {
         this.questionId = questionId;
         this.title = title;
@@ -70,45 +68,6 @@ public class Question {
         this.comments = comments;
         this.answers = answers;
         this.tags = tags;
-        this.author = author;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-    public List<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comment> comments) {
-        this.comments = comments;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
         this.author = author;
     }
 
@@ -160,11 +119,51 @@ public class Question {
         this.createDate = createDate;
     }
 
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+
     public Date getUpdateDate() {
         return updateDate;
     }
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    public List<QuesComment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<QuesComment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public Set<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Set<Tag> tags) {
+        this.tags = tags;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
     }
 }
