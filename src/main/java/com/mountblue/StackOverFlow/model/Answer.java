@@ -16,7 +16,8 @@ public class Answer {
     @Column(name = "answer_id")
     private Integer answerId;
 
-    @Column(name = "content")
+
+    @Column(name = "content", columnDefinition = "text" )
     private String content;
 
     @Column(name = "createdAt")

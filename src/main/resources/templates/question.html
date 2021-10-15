@@ -13,5 +13,16 @@
 
     <input type="submit" value="Delete">
 </form>
+<br>
+<br>
+
+<div>
+    <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post">
+        <label th:for="answer-content">Your Answer</label><br>
+        <textarea th:id="answer-content" th:name="answerContent" placeholder="Enter your Answer Here" rows="10" cols="20"></textarea><br>
+        <button type="submit" >Post Answer</button>
+    </form>
+
+</div>
 </body>
 </html>
