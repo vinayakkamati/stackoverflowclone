@@ -1,6 +1,7 @@
 package com.mountblue.StackOverFlow.controller;
 
 import com.mountblue.StackOverFlow.model.Question;
+import com.mountblue.StackOverFlow.model.Tag;
 import com.mountblue.StackOverFlow.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class QuestionController {
@@ -28,7 +31,17 @@ public class QuestionController {
 
     @PostMapping("/postQuestion")
     public String saveQuestion(@ModelAttribute("question") Question question) {
-
+        Set<Tag> quesTags = new HashSet<>();
+        String tagString = question.getTag();
+        String[] tags = tagString.split(" ");
+        for(String tag:tags ){
+            if(tag.length() > 0){
+                Tag currTag = new Tag();
+                currTag.setTagName(tag.trim());
+                quesTags.add(currTag);
+            }
+        }
+        question.setTags(quesTags);
         questionService.save(question);
         return "redirect:/questions";
     }
@@ -50,6 +63,12 @@ public class QuestionController {
         return "question";
     }
 
+    public String showQuestion(Integer questionId, Model model) {
+        Question question = questionService.getQuestionById(questionId);
+        model.addAttribute("question", question);
+        return "question";
+    }
+
     @PostMapping("/question/edit/{questionId}")
     public String editQuestion(@PathVariable(value = "questionId") Integer questionId,
                            @RequestParam("title") String title,
@@ -61,6 +80,7 @@ public class QuestionController {
         question.setTitle(title);
         question.setDescription(description);
         question.setTag(tag);
+
 
         questionService.save(question);
         return getSelectedQuestion(questionId, model);

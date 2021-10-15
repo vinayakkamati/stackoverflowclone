@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "comments")
-public class Comment {
+@Table(name = "ques_comments")
+public class QuesComment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
@@ -21,42 +21,21 @@ public class Comment {
     @Column(name = "create_date")
     private Date createDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "question_id", nullable = true)
     private Question question;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "answer_id", nullable = true)
-    private Answer answer;
-
-    public Comment() {
+    public QuesComment() {
     }
 
-
-    public Comment(Integer commentId, String content, String userName, String email,
-                   Date createDate, Question question, Answer answer) {
+    public QuesComment(Integer commentId, String content, String userName, String email, Date createDate, Question question) {
         this.commentId = commentId;
         this.content = content;
         this.userName = userName;
         this.email = email;
         this.createDate = createDate;
         this.question = question;
-        this.answer = answer;
-    }
-
-    public Question getQuestion() {
-        return question;
-    }
-
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-    public Answer getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(Answer answer) {
-        this.answer = answer;
     }
 
     public Integer getCommentId() {
@@ -99,4 +78,11 @@ public class Comment {
         this.createDate = createDate;
     }
 
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
 }

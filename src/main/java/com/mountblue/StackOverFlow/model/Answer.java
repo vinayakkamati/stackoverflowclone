@@ -16,7 +16,8 @@ public class Answer {
     @Column(name = "answer_id")
     private Integer answerId;
 
-    @Column(name = "content")
+
+    @Column(name = "content", columnDefinition = "text" )
     private String content;
 
     @Column(name = "createdAt")
@@ -30,9 +31,10 @@ public class Answer {
 
     @OneToMany(mappedBy = "answer",
             cascade = CascadeType.ALL)
-    List<Comment> comments = new ArrayList<>();
+    List<AnsComment> comments = new ArrayList<>();
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "question_id")
     private Question question;
 
@@ -64,7 +66,7 @@ public class Answer {
     public Answer() {
     }
 
-    public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<Comment> comments, Question question, User author,
+    public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<AnsComment> comments, Question question, User author,
                   Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
         this.answerId = answerId;
         this.content = content;
@@ -76,38 +78,6 @@ public class Answer {
         this.author = author;
         this.isAccepted = isAccepted;
         this.positiveVotes = positiveVotes;
-        this.negativeVotes = negativeVotes;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
-    }
-
-    public Boolean getAccepted() {
-        return isAccepted;
-    }
-
-    public void setAccepted(Boolean accepted) {
-        isAccepted = accepted;
-    }
-
-    public Set<User> getPositiveVotes() {
-        return positiveVotes;
-    }
-
-    public void setPositiveVotes(Set<User> positiveVotes) {
-        this.positiveVotes = positiveVotes;
-    }
-
-    public Set<User> getNegativeVotes() {
-        return negativeVotes;
-    }
-
-    public void setNegativeVotes(Set<User> negativeVotes) {
         this.negativeVotes = negativeVotes;
     }
 
@@ -151,11 +121,11 @@ public class Answer {
         this.email = email;
     }
 
-    public List<Comment> getComments() {
+    public List<AnsComment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(List<AnsComment> comments) {
         this.comments = comments;
     }
 
@@ -165,5 +135,37 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public Boolean getAccepted() {
+        return isAccepted;
+    }
+
+    public void setAccepted(Boolean accepted) {
+        isAccepted = accepted;
+    }
+
+    public Set<User> getPositiveVotes() {
+        return positiveVotes;
+    }
+
+    public void setPositiveVotes(Set<User> positiveVotes) {
+        this.positiveVotes = positiveVotes;
+    }
+
+    public Set<User> getNegativeVotes() {
+        return negativeVotes;
+    }
+
+    public void setNegativeVotes(Set<User> negativeVotes) {
+        this.negativeVotes = negativeVotes;
     }
 }
