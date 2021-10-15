@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link  th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
-<button><a th:href="@{/new}"> New Question </a></button>
-<table border="1">
-    <thead>
-    <tr>
-        <th>Title</th>
-        <th>Content</th>
-    </tr>
-    </thead>
-    <tbody>
+<div class="header">
+    <a th:href="@{/new}"> New Question </a>
+</div>
+&nbsp; &nbsp;
+<div class="container">
     <th:block th:each="question : ${listQuestions}">
-        <tr>
-            <td><a th:href="@{/questions/{id}(id=${question.questionId})}">[[${question.title}]]</a></td>
-            <td th:text="${question.description}"></td>
-        </tr>
+        <div class="ques-item">
+            <div>
+                <a th:href="@{/questions/{id}(id=${question.questionId})}">[[${question.title}]]</a>
+            </div>
+            <span th:each="tag : ${question.tags}">
+                  <span>[[${tag.tagName}]]</span> &nbsp; &nbsp;
+            </span>
+        </div>
     </th:block>
-    </tbody>
-</table>
+</div>
 </body>
 </html>
