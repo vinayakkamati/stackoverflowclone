@@ -43,4 +43,9 @@ public class QuestionServiceImpl implements QuestionService {
     public void deletePostById(Integer questionId) {
         this.questionRepository.deleteById(questionId);
     }
+
+    @Override
+    public List<Question> findAllQuestions(String keyword) {
+        return questionRepository.findAll(keyword);
+    }
 }

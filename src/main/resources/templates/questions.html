@@ -6,6 +6,14 @@
     <link  th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
+<div>
+    <span>
+        <form th:action="@{/search}">
+            <input type="text" placeholder="search a keyword" name="searchBar">
+            <input type="submit" value="Search">
+        </form>
+    </span>
+</div>
 <div class="header">
     <a th:href="@{/new}"> New Question </a>
 </div>
