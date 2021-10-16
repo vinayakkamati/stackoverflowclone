@@ -1,6 +1,5 @@
 package com.mountblue.StackOverFlow.controller;
 
-import com.mountblue.StackOverFlow.model.Answer;
 import com.mountblue.StackOverFlow.model.QuesComment;
 import com.mountblue.StackOverFlow.model.Question;
 import com.mountblue.StackOverFlow.service.QuesCommentService;
@@ -9,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -40,7 +38,7 @@ public class QuesCommentController {
         return questionController.showQuestion(questionId, model);
     }
 
-    @PostMapping("/updateQuesComment/{commentId}")
+    @PostMapping("/quesComment/updateQuesComment/{commentId}")
     public String updateComment(@PathVariable(value = "commentId") Integer commentId,
                              @RequestParam("questionId") Integer questionId,
                              @ModelAttribute("quesComment") QuesComment quesComment,
@@ -51,7 +49,7 @@ public class QuesCommentController {
         return questionController.showQuestion(questionId, model);
     }
 
-    @GetMapping("/editQuesComment/{commentId}")
+    @GetMapping("/quesComment/editQuesComment/{commentId}")
     public String editComment(@PathVariable(name = "commentId") Integer commentId,
                                      @RequestParam("questionId") Integer questionId,
                                      Model model) {
@@ -60,7 +58,7 @@ public class QuesCommentController {
         return questionController.showQuestion(questionId, model);
     }
 
-    @GetMapping("/deleteQuesComment/{commentId}")
+    @GetMapping("/quesComment/deleteQuesComment/{commentId}")
     public String deleteComment(@PathVariable(value = "commentId") Integer commentId,
                                 @RequestParam("questionId") Integer questionId,
                                 Model model) {

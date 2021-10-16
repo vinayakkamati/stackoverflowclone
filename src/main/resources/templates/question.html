@@ -27,17 +27,17 @@
     <th:block th:each="quesComment : ${question.comments}">
         <div th:if="${quesComment}!=null">
             <p th:text="${quesComment.content}"></p>
-            <form th:action="@{'/editQuesComment/'+${quesComment.commentId}}" method="get">
+            <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}" method="get">
                 <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                 <input type="submit" value="Edit"/>
             </form>
-            <form th:action="@{'/deleteQuesComment/'+${quesComment.commentId}}" method="get">
+            <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}" method="get">
                 <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                 <input type="submit" value="Delete"/>
             </form>
         </div>
-        <div th:if="${editComment}==${quesComment.commentId}">
-            <form th:action="@{'/updateQuesComment/'+${quesComment.commentId}}" method="post">
+        <div th:if="${editComment}!=null and ${editComment.commentId}==${quesComment.commentId}">
+            <form th:action="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}" method="post">
                 <input type="hidden" name="questionId" th:value="${question.questionId}"/> <br/>
                 <input type="text" name="content" th:value="${quesComment.content}" placeholder="add your Comment..."/>
                 <br/>

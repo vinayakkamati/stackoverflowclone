@@ -35,6 +35,6 @@ public class QuesCommentServiceImpl implements QuesCommentService {
 
     @Override
     public void deleteQuesCommentById(Integer commentId) {
-        this.quesCommentRepository.getById(commentId);
+        this.quesCommentRepository.deleteById(commentId);
     }
 }
