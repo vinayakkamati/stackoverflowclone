@@ -36,6 +36,7 @@ public class QuesCommentController {
         quesComments.add(quesComment);
         question.setComments(quesComments);
         quesComment.setQuestion(question);
+        quesCommentService.save(quesComment);
         return questionController.showQuestion(questionId, model);
     }
 
