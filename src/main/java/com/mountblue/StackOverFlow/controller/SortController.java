@@ -12,6 +12,7 @@ import java.util.List;
 
 @Controller
 public class SortController {
+
     @Autowired
     QuestionService questionService;
 
@@ -24,7 +25,7 @@ public class SortController {
         model.addAttribute("listQuestions", listQuestions);
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDir", sortDir);
-        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
+        model.addAttribute("reverseSortDir", sortDir.equals("desc") ? "asc" : "desc");
 
         return "questions";
     }
