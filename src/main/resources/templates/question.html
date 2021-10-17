@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
@@ -10,15 +11,14 @@
 <button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>
 <form th:action="@{'/question/delete/' + ${question.questionId}}">
     <!--        <input type="hidden" name="username" th:value="${user.email}">-->
-
     <input type="submit" value="Delete">
 </form>
 <br>
-
+<h2>Answers</h2>
 <section>
     <th:block th:each="answer:${question.answers}">
         <div th:if="${answer}!=null">
-              <p th:text="${answer.content}"></p>
+            <p th:text="${answer.content}"></p>
             <div>
                 <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
@@ -28,7 +28,35 @@
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                     <input type="submit" value="Delete Answer"/>
                 </form>
+            </div>
+            <div th:each="ansComment:${answer.comments}">
+                <div th:if="${ansComment} != null">
+                    <p>[[${ansComment.content}]]</p>
+                    <form th:action="@{'/editAnswerComment/'+${ansComment.commentId}}" method="get">
+                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                        <input type="submit" value="Edit"/>
+                    </form>
+                    <form th:action="@{'/deleteAnsComment/'+${ansComment.commentId}}" method="post">
+                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                        <input type="submit" value="Delete"/>
+                    </form>
+                    <div th:if="${editAnsComment} !=null and ${editAnsComment.commentId} ==${ansComment.commentId}">
+                        <form th:action="@{'/updateAnsComment/'+${ansComment.commentId}}" method="post">
+                            <input type="hidden" name="questionId" th:value="${question.questionId}"/> <br/>
+                            <input type="text" name="content" th:value="${ansComment.content}" placeholder="Edit comment"/>
+                            <br/>
+                            <input type="submit" value="Edit Comment"/>
+                        </form>
+                    </div>
+                </div>
 
+            </div>
+            <div class="ans-comment">
+                <form th:action="@{/ansComment/{id}(id=${answer.answerId})}" method="post">
+                    <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                    <textarea name="content" placeholder="write your comment here...."></textarea><br>
+                    <input type="submit" value="Comment"/>
+                </form>
             </div>
         </div>
     </th:block>
@@ -38,8 +66,9 @@
 <div>
     <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post">
         <label th:for="answer-content">Your Answer</label><br>
-        <textarea th:id="answer-content" th:name="answerContent" placeholder="Enter your Answer Here" rows="10" cols="20"></textarea><br>
-        <button type="submit" >Post Answer</button>
+        <textarea th:id="answer-content" th:name="answerContent" placeholder="Enter your Answer Here" rows="10"
+                  cols="20"></textarea><br>
+        <button type="submit">Post Answer</button>
     </form>
 
 </div>
