@@ -6,6 +6,7 @@
     <link th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
+<<<<<<< HEAD
 <div>
 
     <a th:href="@{'/sort/' + '?sortField=createDate&sortDir=' + ${reverseSortDir}}">
@@ -17,6 +18,17 @@
     </a>
 
 </div>
+||||||| 0b42035
+=======
+<div>
+    <span>
+        <form th:action="@{/search}">
+            <input type="text" placeholder="search a keyword" name="searchBar">
+            <input type="submit" value="Search">
+        </form>
+    </span>
+</div>
+>>>>>>> 0af1f4e90926e62a433147042cd9622fc91e014f
 <div class="header">
     <a th:href="@{/new}"> New Question </a>
 </div>
