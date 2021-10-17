@@ -10,7 +10,7 @@ import java.util.List;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
-    @Query("SELECT q FROM Question q WHERE lower(q.title) LIKE %?1% OR " +
+    @Query("SELECT q FROM Question q WHERE q.title LIKE %?1% OR " +
             "lower(q.tag) LIKE %?1%")
     public List<Question> findAll(String keyword);
 }
