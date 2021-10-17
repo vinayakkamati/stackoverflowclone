@@ -3,6 +3,7 @@ package com.mountblue.StackOverFlow.service.impl;
 import com.mountblue.StackOverFlow.model.Question;
 import com.mountblue.StackOverFlow.repository.QuestionRepository;
 import com.mountblue.StackOverFlow.service.QuestionService;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,4 +44,17 @@ public class QuestionServiceImpl implements QuestionService {
     public void deletePostById(Integer questionId) {
         this.questionRepository.deleteById(questionId);
     }
+
+    @Override
+    public List<Question> findAllQuestionsBySorting(String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
+                Sort.by(sortField).descending();
+        return questionRepository.findAll(sort);
+    }
+
+    @Override
+    public List<Question> findAllQuestions(String keyword) {
+        return questionRepository.findAll(keyword);
+    }
+
 }
