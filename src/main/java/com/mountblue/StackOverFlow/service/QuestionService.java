@@ -12,12 +12,11 @@ public interface QuestionService {
     Question getQuestionById(Integer questionId);
 
     void deletePostById(Integer questionId);
-<<<<<<< HEAD
+
 
     List<Question> findAllQuestionsBySorting(String sortField, String sortDirection);
-||||||| 0b42035
-=======
+
 
     List<Question> findAllQuestions(String keyword);
->>>>>>> 0af1f4e90926e62a433147042cd9622fc91e014f
+
 }
