@@ -12,4 +12,6 @@ public interface QuestionService {
     Question getQuestionById(Integer questionId);
 
     void deletePostById(Integer questionId);
+
+    List<Question> findAllQuestions(String keyword);
 }
