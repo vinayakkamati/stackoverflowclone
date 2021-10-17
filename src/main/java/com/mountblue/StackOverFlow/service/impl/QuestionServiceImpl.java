@@ -44,7 +44,6 @@ public class QuestionServiceImpl implements QuestionService {
     public void deletePostById(Integer questionId) {
         this.questionRepository.deleteById(questionId);
     }
-<<<<<<< HEAD
 
     @Override
     public List<Question> findAllQuestionsBySorting(String sortField, String sortDirection) {
@@ -52,12 +51,10 @@ public class QuestionServiceImpl implements QuestionService {
                 Sort.by(sortField).descending();
         return questionRepository.findAll(sort);
     }
-||||||| 0b42035
-=======
 
     @Override
     public List<Question> findAllQuestions(String keyword) {
         return questionRepository.findAll(keyword);
     }
->>>>>>> 0af1f4e90926e62a433147042cd9622fc91e014f
+
 }
