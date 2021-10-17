@@ -3,9 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link  th:href="@{/main.css}" rel="stylesheet"/>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
+<div>
+
+    <a th:href="@{'/sort/' + '?sortField=createDate&sortDir=' + ${reverseSortDir}}">
+        Sort by published date
+    </a>
+    <br>
+    <a th:href="@{'/sort/' + '?sortField=title&sortDir=' + ${reverseSortDir}}">
+        Sort by Question
+    </a>
+
+</div>
 <div class="header">
     <a th:href="@{/new}"> New Question </a>
 </div>

@@ -1,5 +1,7 @@
 package com.mountblue.StackOverFlow.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.util.*;
 
@@ -24,8 +26,10 @@ public class Question {
     @Column(name = "vote_counts")
     private int voteCount;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
-    private Date  createDate = null;
+    @CreationTimestamp
+    private Date  createDate;
 
     @Column(name = "que_tag")
     private String tag;
