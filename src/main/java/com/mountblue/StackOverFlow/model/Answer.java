@@ -16,14 +16,13 @@ public class Answer {
     @Column(name = "answer_id")
     private Integer answerId;
 
-
     @Column(name = "content", columnDefinition = "text" )
     private String content;
 
     @Column(name = "createdAt")
     private Date createTime;
 
-    @Column(name = "user_nmae")
+    @Column(name = "user_name")
     private String userName;
 
     @Column(name = "email")
@@ -41,7 +40,6 @@ public class Answer {
     @ManyToOne(cascade =CascadeType.ALL)
     @JoinColumn(name = "user_id ")
     private User  author;
-
 
     @Column(name = "is_accepted")
     private Boolean isAccepted = false;
