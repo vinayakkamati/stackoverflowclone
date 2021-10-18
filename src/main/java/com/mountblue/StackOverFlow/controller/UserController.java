@@ -57,6 +57,10 @@ public class UserController {
         return "redirect:/registration?success";
     }
 
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
 
     @GetMapping("/users/editUser/{id}")
     public String editUser(@PathVariable(value = "id")Integer userId, Model model,RedirectAttributes redirectAttributes)  {

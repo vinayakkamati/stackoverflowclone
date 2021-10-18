@@ -13,7 +13,7 @@
 <div class="h2">
     <br>
     <h1> User Login Page </h1>
-    <form th:action="@{/login}" th:href="@{/home} " method="post">
+    <form th:action="@{/login}"  method="post">
 
         <div th:if="${param.error}">
             Invalid username or password.
@@ -23,7 +23,7 @@
         </div>
         <br>
         <label for="Email"> Email </label> <br>
-        <input type="text" id="Email" name="Email" autofocus="autofocus">
+        <input type="email" id="Email" name="email" autofocus="autofocus">
         <br>
         <br>
         <div>
