@@ -2,8 +2,10 @@ package com.mountblue.StackOverFlow.controller;
 
 import com.mountblue.StackOverFlow.model.AnsComment;
 import com.mountblue.StackOverFlow.model.Answer;
+import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.AnsCommentService;
 import com.mountblue.StackOverFlow.service.AnswerService;
+import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +20,27 @@ public class AnsCommentController {
     AnswerService answerService;
     @Autowired
     AnsCommentService ansCommentService;
-
+    @Autowired
+    UserServiceImpl userServiceImpl;
     @Autowired
     QuestionController questionController;
+
     @PostMapping("/ansComment/{ansId}")
     public String saveAnsComment(@PathVariable(value = "ansId") Integer answerId,
-                              @RequestParam(value = "content") String content,
+                                 @RequestParam(value = "content") String content,
                                  @RequestParam("questionId") Integer questionId,
-                              Model model) {
+                                 Model model) {
+        User user = userServiceImpl.getCurrentUser();
         Answer answer = answerService.getAnswerById(answerId);
         AnsComment ansComment = new AnsComment();
         ansComment.setContent(content);
         List<AnsComment> ansComments = answer.getComments();
-       ansComments.add(ansComment);
-       answer.setComments(ansComments);
-       ansComment.setAnswer(answer);
-       ansCommentService.save(ansComment);
-       return questionController.showQuestion(questionId, model);
+        ansComments.add(ansComment);
+        answer.setComments(ansComments);
+        ansComment.setAnswer(answer);
+        ansComment.setEmail(user.getEmail());
+        ansCommentService.save(ansComment);
+        return questionController.showQuestion(questionId, model);
     }
 
 
@@ -64,14 +70,8 @@ public class AnsCommentController {
     public String deleteComment(@PathVariable(value = "commentId") Integer commentId,
                                 @RequestParam("questionId") Integer questionId,
                                 Model model) {
-
         ansCommentService.deleteAnswerCommentById(commentId);
 
        return questionController.showQuestion(questionId, model);
     }
-
-
-
-
-
 }

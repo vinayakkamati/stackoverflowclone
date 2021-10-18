@@ -2,8 +2,10 @@ package com.mountblue.StackOverFlow.controller;
 
 import com.mountblue.StackOverFlow.model.Answer;
 import com.mountblue.StackOverFlow.model.Question;
+import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.AnswerService;
 import com.mountblue.StackOverFlow.service.QuestionService;
+import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +23,12 @@ public class AnswerController {
     QuestionService questionService;
     @Autowired
     QuestionController questionController;
+    @Autowired
+    UserServiceImpl userServiceImpl;
 
     @PostMapping("/postAnswer/{quesId}")
     public String saveAnswer(@PathVariable(value = "quesId") Integer quesId, @RequestParam(value = "answerContent") String answerContent) {
+        User user = userServiceImpl.getCurrentUser();
         Question question = questionService.getQuestionById(quesId);
         Answer answer = new Answer();
         answer.setContent(answerContent);
@@ -31,6 +36,7 @@ public class AnswerController {
         answers.add(answer);
         question.setAnswers(answers);
         answer.setQuestion(question);
+        answer.setAuthor(user);
         answerService.save(answer);
         return "redirect:/questions";
     }
@@ -59,9 +65,9 @@ public class AnswerController {
     }
 
     @GetMapping("/deleteAnswer/{answerId}")
-    public String deleteAnswer(@PathVariable(value = "answerId") Integer answerId,@RequestParam("questionId")Integer questionId,
+    public String deleteAnswer(@PathVariable(value = "answerId") Integer answerId,
+                               @RequestParam("questionId")Integer questionId,
                                Model model) {
-
         answerService.deleteAnswerById(answerId);
         return questionController.showQuestion(questionId, model);
     }
