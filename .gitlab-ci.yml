@@ -23,7 +23,7 @@ deploy_heroku:
     - echo "Deploying for Heroku Cloud Platform"
     - echo "$HEROKU_API_KEY"
     - yum install git -y
-    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/stackoverflow-clone-application.git
+    - git remote add heroku https://heroku:$HEROKU_API_KEY@git.heroku.com/stackoverflow-application.git
     - git config --global user.email "pranay.srivastava.17.1@mountblue.tech"
     - git config --global user.name "pranay.srivastava.17.1"
     - git config --global push.default matching
