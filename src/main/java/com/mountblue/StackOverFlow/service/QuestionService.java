@@ -16,4 +16,5 @@ public interface QuestionService {
     List<Question> findAllQuestionsBySorting(String sortField, String sortDirection);
 
     List<Question> findAllQuestions(String keyword);
+
 }
