@@ -1,40 +1,40 @@
 package com.mountblue.StackOverFlow.model;
 import javax.persistence.*;
-
-import javax.persistence.*;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "roles")
 public class Role {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "role_id")
-    private int roleId;
-    @Column(name = "role_name")
+    private Integer roleId;
+    @Column( name = "role_name",length = 40, nullable = false, unique = true)
     private String roleName;
 
-    @ManyToMany(mappedBy = "roles")
-    private Collection<User>users;
+   /* @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "roles")
+    private Set<User> users =new HashSet<>();*/
 
     public Role() {
-    }
-
-    public Role(int roleId, String roleName, Collection<User> users) {
-        this.roleId = roleId;
-        this.roleName = roleName;
-        this.users = users;
     }
 
     public Role(String roleName) {
         this.roleName = roleName;
     }
 
-    public int getRoleId() {
+    public Role(Integer roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
+    }
+
+    public Integer getRoleId() {
         return roleId;
     }
 
-    public void setRoleId(int roleId) {
+    public void setRoleId(Integer roleId) {
         this.roleId = roleId;
     }
 
@@ -46,11 +46,4 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public Collection<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Collection<User> users) {
-        this.users = users;
-    }
 }

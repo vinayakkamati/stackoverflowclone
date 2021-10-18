@@ -2,15 +2,16 @@ package com.mountblue.StackOverFlow.model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(	name = "users",
+@Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "email")
         })
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -28,13 +29,13 @@ public class User {
     @Column(name = "reputations")
     private int reputation = 1;
 
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
-    private Collection<Role> roles;
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
     @OneToMany(mappedBy = "author", cascade = {
             CascadeType.DETACH, CascadeType.MERGE,
@@ -50,7 +51,7 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String name, String email, String password, int reputation, Collection<Role> roles,
+    public User(int userId, String name, String email, String password, int reputation, Set<Role> roles,
                 List<Question> questions, List<Answer> answers) {
         this.userId = userId;
         this.name = name;
@@ -118,11 +119,11 @@ public class User {
         this.reputation = reputation;
     }
 
-    public Collection<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Collection<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
 }
