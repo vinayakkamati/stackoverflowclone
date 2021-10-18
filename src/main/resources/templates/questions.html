@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -27,14 +27,19 @@
         </form>
     </span>
 </div>
-
-<div class="header">
-    <a th:href="@{/new}"> New Question </a>
-</div>
+<th:block th:if="${user!=null}">zz
+    <div class="header">
+        <a th:href="@{/new}"> Ask Question </a>
+    </div>
+</th:block>
 &nbsp; &nbsp;
 <div>
     <a th:href="@{/users}">Users</a>
 </div>
+<div class="row col-sm-1" sec:authorize="!isAuthenticated()"><a th:href="@{/login}" class="btn btn-primary btn-sm mb-3"> Login </a></div>
+
+<div class="row col-sm-1"><span sec:authorize="isAuthenticated()"><a th:href="@{/logout}" class="btn btn-primary btn-sm mb-3">Logout</a></span></div>
+
 <div class="container">
     <th:block th:each="question : ${listQuestions}">
         <div class="ques-item">
