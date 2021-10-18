@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div >
+    <div th:if="${param.success}">
+        <h1>Yoy have registered successfully</h1>
+    </div>
+    <h1>Register </h1>
+    <form th:action="@{/registration}" th:object="${user}" method="post">
+        <div>
+            <input type="text"
+                   name="username"
+                   th:field="*{name}"
+                   placeholder="Enter your Name"
+            ><br>
+            <input type="text"
+                   name="email"
+                   th:field="*{email}"
+                   placeholder="Enter Email"
+            ><br>
+            <input type="text"
+                   name="password"
+                   th:field="*{password}"
+                   placeholder="Enter Password"
+            ><br>
+
+        </div>
+        <div>
+            <button type="submit">Register</button>
+            <span>Already Registered?<a href="/" th:href="@{/login}">Login </a></span>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
