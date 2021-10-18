@@ -6,6 +6,7 @@
     <link th:href="@{/main.css}" rel="stylesheet"/>
 </head>
 <body>
+
 <div>
 
     <a th:href="@{'/sort/' + '?sortField=createDate&sortDir=' + ${reverseSortDir}}">
@@ -17,6 +18,7 @@
     </a>
 
 </div>
+
 <div>
     <span>
         <form th:action="@{/search}">
