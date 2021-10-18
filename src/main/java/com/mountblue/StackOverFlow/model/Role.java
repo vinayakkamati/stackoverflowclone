@@ -1,7 +1,5 @@
 package com.mountblue.StackOverFlow.model;
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.*;;
 
 @Entity
 @Table(name = "roles")
@@ -13,10 +11,6 @@ public class Role {
     private Integer roleId;
     @Column( name = "role_name",length = 40, nullable = false, unique = true)
     private String roleName;
-
-   /* @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH, CascadeType.DETACH}, mappedBy = "roles")
-    private Set<User> users =new HashSet<>();*/
 
     public Role() {
     }
