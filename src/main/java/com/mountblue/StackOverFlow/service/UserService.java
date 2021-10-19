@@ -17,5 +17,5 @@ public interface UserService  {
     void deleteUserById(Integer userId);
 
     User getUserByEmail(String currentUserEmail);
-    //User getCurrentUser();
+    User getCurrentUser();
 }

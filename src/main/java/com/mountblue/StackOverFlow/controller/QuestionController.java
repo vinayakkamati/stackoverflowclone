@@ -71,6 +71,7 @@ public class QuestionController {
 
         }
 
+
         List<Question> listQuestions = questionService.getAllQuestions();
         model.addAttribute("listQuestions", listQuestions);
         model.addAttribute("user", user);

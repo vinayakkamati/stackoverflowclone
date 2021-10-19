@@ -1,6 +1,5 @@
 package com.mountblue.StackOverFlow.service.impl;
 
-import com.mountblue.StackOverFlow.exception.UserNotFoundException;
 import com.mountblue.StackOverFlow.model.Role;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.repository.UserRepository;
@@ -10,25 +9,28 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService  {
-    UserRepository userRepository;
+public class UserServiceImpl implements UserService, UserDetailsService {
+
     @Autowired
-    public void setUserRepository(UserRepository userRepository) {
+    private final UserRepository userRepository;
+
+    private BCryptPasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     public void setPasswordEncoder(BCryptPasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
@@ -40,52 +42,32 @@ public class UserServiceImpl implements UserService  {
         user.setPassword(encodedPassword);
     }
 
+    @Override
     public List<User> listAll() {
         return userRepository.findAll();
     }
 
+    @Override
     public void saveUser(User user) {
         encodePassword(user);
          this.userRepository.save(user);
     }
 
-    public User getUserById(Integer userId) throws UserNotFoundException {
-        try {
-            return userRepository.findById(userId).get();
-        }catch (NoSuchElementException ex){
-            throw new UserNotFoundException("Could not found user with ID"+userId);
-        }
-
-    }
-
     @Override
-    public void deleteUserById(Integer userId) {
-        this.userRepository.deleteById(userId);
+    public User getUserById(Integer userId) {
+
+       return userRepository.getById(userId);
     }
+
 
     @Override
     public User getUserByEmail(String currentUserEmail) {
         return userRepository.getUserByEmail(currentUserEmail);
     }
 
-
-   /* @Override
-    public User getCurrentUser() {
-        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = null;
-        if(principal instanceof UserDetails){
-            String username = ((UserDetails) principal).getUsername();
-            System.out.println("Current User Details: " + username);
-            user = userRepository.findByEmail(username);
-        }
-        System.out.println("user is "+user.getEmail());
-        return user;
-    }*/
-/*
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.getUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid Username or Password");
         }
@@ -97,19 +79,20 @@ public class UserServiceImpl implements UserService  {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }
 
+    @Override
     public void deleteUserById(Integer userId) {
         userRepository.deleteById(userId);
     }
-*/
 
-  /*  public User getCurrentUser() {
+    @Override
+    public User getCurrentUser() {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
         if(principal instanceof UserDetails){
             String username = ((UserDetails) principal).getUsername();
             System.out.println("Current User Details: " + username);
-            user = userRepository.findByEmail(username);
+            user = userRepository.getUserByEmail(username);
         }
         return user;
-    }*/
+    }
 }
