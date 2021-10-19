@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService  {
     UserRepository userRepository;
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
@@ -40,18 +40,15 @@ public class UserServiceImpl implements UserService {
         user.setPassword(encodedPassword);
     }
 
-    @Override
     public List<User> listAll() {
         return userRepository.findAll();
     }
 
-    @Override
     public void saveUser(User user) {
         encodePassword(user);
          this.userRepository.save(user);
     }
 
-    @Override
     public User getUserById(Integer userId) throws UserNotFoundException {
         try {
             return userRepository.findById(userId).get();
@@ -60,6 +57,31 @@ public class UserServiceImpl implements UserService {
         }
 
     }
+
+    @Override
+    public void deleteUserById(Integer userId) {
+        this.userRepository.deleteById(userId);
+    }
+
+    @Override
+    public User getUserByEmail(String currentUserEmail) {
+        return userRepository.getUserByEmail(currentUserEmail);
+    }
+
+
+   /* @Override
+    public User getCurrentUser() {
+        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = null;
+        if(principal instanceof UserDetails){
+            String username = ((UserDetails) principal).getUsername();
+            System.out.println("Current User Details: " + username);
+            user = userRepository.findByEmail(username);
+        }
+        System.out.println("user is "+user.getEmail());
+        return user;
+    }*/
+/*
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -75,12 +97,12 @@ public class UserServiceImpl implements UserService {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName())).collect(Collectors.toList());
     }
 
-    @Override
     public void deleteUserById(Integer userId) {
         userRepository.deleteById(userId);
     }
+*/
 
-    public User getCurrentUser() {
+  /*  public User getCurrentUser() {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
         if(principal instanceof UserDetails){
@@ -89,5 +111,5 @@ public class UserServiceImpl implements UserService {
             user = userRepository.findByEmail(username);
         }
         return user;
-    }
+    }*/
 }

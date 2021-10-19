@@ -7,6 +7,8 @@ import com.mountblue.StackOverFlow.service.AnsCommentService;
 import com.mountblue.StackOverFlow.service.AnswerService;
 import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +32,8 @@ public class AnsCommentController {
                                  @RequestParam(value = "content") String content,
                                  @RequestParam("questionId") Integer questionId,
                                  Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         Answer answer = answerService.getAnswerById(answerId);
         AnsComment ansComment = new AnsComment();
         ansComment.setContent(content);

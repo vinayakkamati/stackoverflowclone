@@ -4,8 +4,12 @@ import com.mountblue.StackOverFlow.model.Question;
 import com.mountblue.StackOverFlow.model.Tag;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.QuestionService;
+import com.mountblue.StackOverFlow.service.UserService;
 import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,11 +29,12 @@ public class QuestionController {
     QuestionService questionService;
 
     @Autowired
-    UserServiceImpl userServiceImpl;
+    UserService userService;
 
     @GetMapping("/new")
     public String createQuestion(Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         model.addAttribute("question", new Question());
         model.addAttribute("user", user);
 
@@ -38,7 +43,8 @@ public class QuestionController {
 
     @PostMapping("/postQuestion")
     public String saveQuestion(@ModelAttribute("question") Question question, Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         Set<Tag> quesTags = new HashSet<>();
         String tagString = question.getTag();
         String[] tags = tagString.split(" ");
@@ -57,7 +63,14 @@ public class QuestionController {
 
     @GetMapping("/questions")
     public String showQuestions(Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userService.getUserByEmail(currentUserEmail);
+
+        }
+
         List<Question> listQuestions = questionService.getAllQuestions();
         model.addAttribute("listQuestions", listQuestions);
         model.addAttribute("user", user);
@@ -67,7 +80,8 @@ public class QuestionController {
     @GetMapping("/questions/{questionId}")
     public String getSelectedQuestion(@PathVariable("questionId") Integer questionId,
                                       Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
@@ -76,7 +90,8 @@ public class QuestionController {
     }
 
     public String showQuestion(Integer questionId, Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
@@ -89,7 +104,8 @@ public class QuestionController {
                            @RequestParam("description") String description,
                            @RequestParam("tag") String tag,
                            Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+        User user = (User)authentication.getPrincipal();
         Question question = questionService.getQuestionById(questionId);
 
         question.setTitle(title);
