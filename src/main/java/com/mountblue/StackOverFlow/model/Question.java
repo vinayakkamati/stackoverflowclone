@@ -51,7 +51,8 @@ public class Question {
             inverseJoinColumns = { @JoinColumn (name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id ")
     private User  author;
 
