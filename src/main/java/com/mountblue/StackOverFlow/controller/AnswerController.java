@@ -36,7 +36,7 @@ public class AnswerController {
         answers.add(answer);
         question.setAnswers(answers);
         answer.setQuestion(question);
-        answer.setAuthor(user);
+        answer.setAuthorId(user.getUserId());
         answerService.save(answer);
         return "redirect:/questions";
     }

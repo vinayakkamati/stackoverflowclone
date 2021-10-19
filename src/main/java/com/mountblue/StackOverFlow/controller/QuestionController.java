@@ -50,7 +50,7 @@ public class QuestionController {
             }
         }
         question.setTags(quesTags);
-        question.setAuthor(user);
+        question.setAuthorId(user.getUserId());
         questionService.save(question);
         return "redirect:/questions";
     }

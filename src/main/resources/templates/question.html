@@ -9,7 +9,7 @@
 <body>
 <h2>[[${question.title}]]</h2>
 <p>[[${question.description}]]</p>
-<div th:if="${admin} or ${user!=null} and ${user}==${question.user}">
+<div th:if="${admin} or ${user!=null} and ${user.userId}==${question.authorId}">
     <button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>
     <form th:action="@{'/question/delete/' + ${question.questionId}}">
         <!--        <input type="hidden" name="username" th:value="${user.email}">-->
@@ -58,7 +58,7 @@
     <th:block th:each="answer:${question.answers}">
         <div th:if="${answer}!=null">
             <p th:text="${answer.content}"></p>
-            <div th:if="${admin} or ${user}!=null and ${user.email}==${quesComment.email}">
+            <div th:if="${admin} or ${user}!=null and ${user.userId}==${answer.authorId}">
                 <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                     <input type="submit" value="Edit Answer"/>
@@ -104,7 +104,7 @@
 </section>
 
 <br>
-<div th:if="${admin} or ${user}!=null and ${user.usedId}==${answer.answerId}">
+<div th:if="${admin} or ${user}!=null">
     <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post">
         <label th:for="answer-content">Your Answer</label><br>
         <textarea th:id="answer-content" th:name="answerContent" placeholder="Enter your Answer Here" rows="10"

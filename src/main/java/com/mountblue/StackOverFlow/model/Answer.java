@@ -61,11 +61,14 @@ public class Answer {
     )
     private Set<User> negativeVotes;
 
+    @Column(name = "authorId", nullable = false)
+    private int authorId;
+
     public Answer() {
     }
 
     public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<AnsComment> comments, Question question, User author,
-                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
+                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes, int authorId) {
         this.answerId = answerId;
         this.content = content;
         this.createTime = createTime;
@@ -77,6 +80,7 @@ public class Answer {
         this.isAccepted = isAccepted;
         this.positiveVotes = positiveVotes;
         this.negativeVotes = negativeVotes;
+        this.authorId = authorId;
     }
 
     public Integer getAnswerId() {
@@ -165,5 +169,13 @@ public class Answer {
 
     public void setNegativeVotes(Set<User> negativeVotes) {
         this.negativeVotes = negativeVotes;
+    }
+
+    public int getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(int authorId) {
+        this.authorId = authorId;
     }
 }
