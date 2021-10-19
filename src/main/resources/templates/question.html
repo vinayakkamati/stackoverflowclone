@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xmlns="http://www.w3.org/1999/xhtml"  xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -9,11 +9,13 @@
 <body>
 <h2>[[${question.title}]]</h2>
 <p>[[${question.description}]]</p>
-<button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>
-<form th:action="@{'/question/delete/' + ${question.questionId}}">
-    <!--        <input type="hidden" name="username" th:value="${user.email}">-->
-    <input type="submit" value="Delete">
-</form>
+<div th:if="${admin} or ${user!=null} and ${user.userId}==${question.authorId}">
+    <button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>
+    <form th:action="@{'/question/delete/' + ${question.questionId}}">
+        <!--        <input type="hidden" name="username" th:value="${user.email}">-->
+        <input type="submit" value="Delete">
+    </form>
+</div>
 <br>
 
 
@@ -29,14 +31,16 @@
     <th:block th:each="quesComment : ${question.comments}">
         <div th:if="${quesComment}!=null">
             <p th:text="${quesComment.content}"></p>
-            <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}" method="get">
-                <input type="hidden" name="questionId" th:value="${question.questionId}"/>
-                <input type="submit" value="Edit"/>
-            </form>
-            <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}" method="get">
-                <input type="hidden" name="questionId" th:value="${question.questionId}"/>
-                <input type="submit" value="Delete"/>
-            </form>
+            <div th:if="${admin} or ${user}!=null and ${user.email}==${quesComment.email}">
+                <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}" method="get">
+                    <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                    <input type="submit" value="Edit"/>
+                </form>
+                <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}" method="get">
+                    <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+            </div>
         </div>
         <div th:if="${editComment}!=null and ${editComment.commentId}==${quesComment.commentId}">
             <form th:action="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}" method="post">
@@ -49,11 +53,12 @@
     </th:block>
 </section>
 <h2>Answers</h2>
+
 <section>
     <th:block th:each="answer:${question.answers}">
         <div th:if="${answer}!=null">
             <p th:text="${answer.content}"></p>
-            <div>
+            <div th:if="${admin} or ${user}!=null and ${user.userId}==${answer.authorId}">
                 <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                     <input type="submit" value="Edit Answer"/>
@@ -62,23 +67,25 @@
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                     <input type="submit" value="Delete Answer"/>
                 </form>
-
             </div>
             <div th:each="ansComment:${answer.comments}">
                 <div th:if="${ansComment} != null">
                     <p>[[${ansComment.content}]]</p>
-                    <form th:action="@{'/editAnswerComment/'+${ansComment.commentId}}" method="get">
-                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
-                        <input type="submit" value="Edit"/>
-                    </form>
-                    <form th:action="@{'/deleteAnsComment/'+${ansComment.commentId}}" method="post">
-                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
-                        <input type="submit" value="Delete"/>
-                    </form>
+                    <div th:if="${admin} or ${user}!=null and ${user.email}==${ansComment.email}">
+                        <form th:action="@{'/editAnswerComment/'+${ansComment.commentId}}" method="get">
+                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                            <input type="submit" value="Edit"/>
+                        </form>
+                        <form th:action="@{'/deleteAnsComment/'+${ansComment.commentId}}" method="post">
+                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                            <input type="submit" value="Delete"/>
+                        </form>
+                    </div>
                     <div th:if="${editAnsComment} !=null and ${editAnsComment.commentId} ==${ansComment.commentId}">
                         <form th:action="@{'/updateAnsComment/'+${ansComment.commentId}}" method="post">
                             <input type="hidden" name="questionId" th:value="${question.questionId}"/> <br/>
-                            <input type="text" name="content" th:value="${ansComment.content}" placeholder="Edit comment"/>
+                            <input type="text" name="content" th:value="${ansComment.content}"
+                                   placeholder="Edit comment"/>
                             <br/>
                             <input type="submit" value="Edit Comment"/>
                         </form>
@@ -97,14 +104,13 @@
 </section>
 
 <br>
-<div>
+<div th:if="${admin} or ${user}!=null">
     <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post">
         <label th:for="answer-content">Your Answer</label><br>
         <textarea th:id="answer-content" th:name="answerContent" placeholder="Enter your Answer Here" rows="10"
                   cols="20"></textarea><br>
         <button type="submit">Post Answer</button>
     </form>
-
 </div>
 </body>
 </html>
