@@ -32,8 +32,8 @@ public class AnsCommentController {
                                  @RequestParam(value = "content") String content,
                                  @RequestParam("questionId") Integer questionId,
                                  Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
         Answer answer = answerService.getAnswerById(answerId);
         AnsComment ansComment = new AnsComment();
         ansComment.setContent(content);
@@ -49,8 +49,8 @@ public class AnsCommentController {
 
     @GetMapping("/editAnswerComment/{commentId}")
     public String editAnsComment(@PathVariable(name = "commentId") Integer commentId,
-                              @RequestParam("questionId") Integer questionId,
-                              Model model) {
+                                 @RequestParam("questionId") Integer questionId,
+                                 Model model) {
         AnsComment editAnsComment = ansCommentService.getAnsCommentById(commentId);
         model.addAttribute("editAnsComment", editAnsComment);
         return questionController.showQuestion(questionId, model);
@@ -75,6 +75,6 @@ public class AnsCommentController {
                                 Model model) {
         ansCommentService.deleteAnswerCommentById(commentId);
 
-       return questionController.showQuestion(questionId, model);
+        return questionController.showQuestion(questionId, model);
     }
 }
