@@ -47,13 +47,7 @@ public class AnswerController {
 
     @PostMapping("/postAnswer/{quesId}")
     public String saveAnswer(@PathVariable(value = "quesId") Integer quesId, @RequestParam(value = "answerContent") String answerContent) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(quesId);
         Answer answer = new Answer();
         answer.setContent(answerContent);
@@ -61,7 +55,6 @@ public class AnswerController {
         answers.add(answer);
         question.setAnswers(answers);
         answer.setQuestion(question);
-        answer.setAuthorId(user.getUserId());
         answer.setAuthor(user);
         answerService.save(answer);
         return "redirect:/questions";

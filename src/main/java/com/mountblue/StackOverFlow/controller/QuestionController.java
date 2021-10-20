@@ -39,13 +39,7 @@ public class QuestionController {
 
     @GetMapping("/new")
     public String createQuestion(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         model.addAttribute("question", new Question());
         model.addAttribute("user", user);
 
@@ -54,13 +48,7 @@ public class QuestionController {
 
     @PostMapping("/postQuestion")
     public String saveQuestion(@ModelAttribute("question") Question question) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         Set<Tag> quesTags = new HashSet<>();
         String tagString = question.getTag();
         String[] tags = tagString.split(" ");
@@ -72,7 +60,6 @@ public class QuestionController {
             }
         }
         question.setTags(quesTags);
-        question.setAuthorId(user.getUserId());
         question.setAuthor(user);
         questionService.save(question);
         return "redirect:/questions";
@@ -80,13 +67,7 @@ public class QuestionController {
 
     @GetMapping("/questions")
     public String showQuestions(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         List<Question> listQuestions = questionService.getAllQuestions();
         model.addAttribute("listQuestions", listQuestions);
         model.addAttribute("user", user);
@@ -96,13 +77,7 @@ public class QuestionController {
     @GetMapping("/questions/{questionId}")
     public String getSelectedQuestion(@PathVariable("questionId") Integer questionId,
                                       Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
@@ -110,13 +85,7 @@ public class QuestionController {
     }
 
     public String showQuestion(Integer questionId, Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
@@ -130,13 +99,7 @@ public class QuestionController {
                            @RequestParam("description") String description,
                            @RequestParam("tag") String tag,
                            Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
 
         question.setTitle(title);

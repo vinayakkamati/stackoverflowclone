@@ -40,9 +40,7 @@ public class User {
     @OneToMany(mappedBy = "author", cascade =CascadeType.ALL)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "author", cascade = {
-            CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private List<Answer> answers;
 
 

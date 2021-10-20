@@ -5,6 +5,8 @@ import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.repository.UserRepository;
 import com.mountblue.StackOverFlow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -85,13 +87,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getCurrentUser() {
-        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getUserFromContext(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
-        if(principal instanceof UserDetails){
-            String username = ((UserDetails) principal).getUsername();
-            System.out.println("Current User Details: " + username);
-            user = userRepository.getUserByEmail(username);
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userRepository.getUserByEmail(currentUserEmail);
+
         }
         return user;
     }

@@ -37,7 +37,8 @@ public class Answer {
     @JoinColumn(name = "question_id")
     private Question question;
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id ")
     private User  author;
 
@@ -61,14 +62,12 @@ public class Answer {
     )
     private Set<User> negativeVotes;
 
-    @Column(name = "authorId", nullable = false)
-    private int authorId;
 
     public Answer() {
     }
 
     public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<AnsComment> comments, Question question, User author,
-                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes, int authorId) {
+                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
         this.answerId = answerId;
         this.content = content;
         this.createTime = createTime;
@@ -80,7 +79,6 @@ public class Answer {
         this.isAccepted = isAccepted;
         this.positiveVotes = positiveVotes;
         this.negativeVotes = negativeVotes;
-        this.authorId = authorId;
     }
 
     public Integer getAnswerId() {
@@ -171,11 +169,5 @@ public class Answer {
         this.negativeVotes = negativeVotes;
     }
 
-    public int getAuthorId() {
-        return authorId;
-    }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
 }
