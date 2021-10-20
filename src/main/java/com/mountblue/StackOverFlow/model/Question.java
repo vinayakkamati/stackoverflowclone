@@ -51,18 +51,16 @@ public class Question {
             inverseJoinColumns = { @JoinColumn (name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id ")
     private User  author;
-
-    @Column(name = "authorId", nullable = false)
-    private int authorId;
 
     public Question() {
     }
 
     public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments,
-                    List<Answer> answers, Set<Tag> tags, User author, int authorId) {
+                    List<Answer> answers, Set<Tag> tags, User author) {
         this.questionId = questionId;
         this.title = title;
         this.description = description;
@@ -75,7 +73,7 @@ public class Question {
         this.answers = answers;
         this.tags = tags;
         this.author = author;
-        this.authorId = authorId;
+
     }
 
     public Integer getQuestionId() {
@@ -174,11 +172,4 @@ public class Question {
         this.author = author;
     }
 
-    public int getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
-    }
 }

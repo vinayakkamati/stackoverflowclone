@@ -24,17 +24,22 @@ import java.util.Set;
 
 @Controller
 public class QuestionController {
-
-    @Autowired
     QuestionService questionService;
+    UserService userService;
 
     @Autowired
-    UserService userService;
+    public void setQuestionService(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/new")
     public String createQuestion(Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = userService.getUserFromContext();
         model.addAttribute("question", new Question());
         model.addAttribute("user", user);
 
@@ -42,9 +47,8 @@ public class QuestionController {
     }
 
     @PostMapping("/postQuestion")
-    public String saveQuestion(@ModelAttribute("question") Question question, Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+    public String saveQuestion(@ModelAttribute("question") Question question) {
+        User user = userService.getUserFromContext();
         Set<Tag> quesTags = new HashSet<>();
         String tagString = question.getTag();
         String[] tags = tagString.split(" ");
@@ -56,22 +60,14 @@ public class QuestionController {
             }
         }
         question.setTags(quesTags);
-        question.setAuthorId(user.getUserId());
+        question.setAuthor(user);
         questionService.save(question);
         return "redirect:/questions";
     }
 
     @GetMapping("/questions")
     public String showQuestions(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = null;
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserEmail = authentication.getName();
-            user = userService.getUserByEmail(currentUserEmail);
-
-        }
-
-
+        User user = userService.getUserFromContext();
         List<Question> listQuestions = questionService.getAllQuestions();
         model.addAttribute("listQuestions", listQuestions);
         model.addAttribute("user", user);
@@ -81,23 +77,21 @@ public class QuestionController {
     @GetMapping("/questions/{questionId}")
     public String getSelectedQuestion(@PathVariable("questionId") Integer questionId,
                                       Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
-
         return "question";
     }
 
     public String showQuestion(Integer questionId, Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
         model.addAttribute("question", question);
         model.addAttribute("user", user);
         return "question";
     }
+
 
     @PostMapping("/question/edit/{questionId}")
     public String editQuestion(@PathVariable(value = "questionId") Integer questionId,
@@ -105,8 +99,7 @@ public class QuestionController {
                            @RequestParam("description") String description,
                            @RequestParam("tag") String tag,
                            Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        User user = userService.getUserFromContext();
         Question question = questionService.getQuestionById(questionId);
 
         question.setTitle(title);

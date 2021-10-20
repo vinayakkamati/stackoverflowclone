@@ -5,8 +5,10 @@ import com.mountblue.StackOverFlow.model.Question;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.QuesCommentService;
 import com.mountblue.StackOverFlow.service.QuestionService;
+import com.mountblue.StackOverFlow.service.UserService;
 import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,25 +19,42 @@ import java.util.List;
 
 @Controller
 public class QuesCommentController {
-
-    @Autowired
     QuestionService questionService;
-
-    @Autowired
     QuesCommentService quesCommentService;
-
-    @Autowired
     QuestionController questionController;
+    UserService userService;
 
     @Autowired
-    UserServiceImpl userServiceImpl;
+    public void setQuestionService(QuestionService questionService) {
+        this.questionService = questionService;
+    }
+
+    @Autowired
+    public void setQuesCommentService(QuesCommentService quesCommentService) {
+        this.quesCommentService = quesCommentService;
+    }
+
+    @Autowired
+    public void setQuestionController(QuestionController questionController) {
+        this.questionController = questionController;
+    }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/quesComment/{questionId}")
     public String saveComment(@PathVariable(value = "questionId") Integer questionId,
                               @RequestParam(value = "content") String content,
                               Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userService.getUserByEmail(currentUserEmail);
+
+        }
         Question question = questionService.getQuestionById(questionId);
         QuesComment quesComment = new QuesComment();
         quesComment.setContent(content);
@@ -63,8 +82,13 @@ public class QuesCommentController {
     public String editComment(@PathVariable(name = "commentId") Integer commentId,
                                      @RequestParam("questionId") Integer questionId,
                                      Model model) {
-        Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
-        User user = (User)authentication.getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userService.getUserByEmail(currentUserEmail);
+
+        }
         QuesComment quesComment = quesCommentService.getQuesCommentById(commentId);
         model.addAttribute("editComment", quesComment);
         return questionController.showQuestion(questionId, model);
