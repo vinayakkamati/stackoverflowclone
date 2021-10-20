@@ -58,7 +58,7 @@
     <th:block th:each="answer:${question.answers}">
         <div th:if="${answer}!=null">
             <p th:text="${answer.content}"></p>
-            <div th:if="${admin} or ${user}!=null and ${user.userId}==${question.author.userId}">
+            <div th:if="${admin} or ${user}!=null and ${user.userId}==${answer.author.userId}">
                 <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
                     <input type="hidden" name="questionId" th:value="${question.questionId}"/>
                     <input type="submit" value="Edit Answer"/>

@@ -5,7 +5,6 @@ import com.mountblue.StackOverFlow.model.Role;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.RoleService;
 import com.mountblue.StackOverFlow.service.UserService;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +20,9 @@ import java.util.Set;
 @Controller
 public class UserController {
 
-    private UserService userService;
-    @Autowired
-    public void setUserService(UserService userService) {
+    private final UserService userService;
+
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -32,6 +31,12 @@ public class UserController {
     @Autowired
     public void setRoleService(RoleService roleService) {
         this.roleService = roleService;
+    }
+
+    @GetMapping("/")
+    public String homepage() {
+        System.out.println("Hi");
+        return "home";
     }
 
     @GetMapping("/users")
@@ -75,8 +80,6 @@ public class UserController {
         }
 
     }
-
-
 
     @PostMapping("/users/updateUser")
     public  String updateUser(@ModelAttribute("user") User user){
