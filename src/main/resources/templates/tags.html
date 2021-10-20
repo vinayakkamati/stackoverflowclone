@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Tags</title>
+    <link th:href="@{/main.css}" rel="stylesheet"/>
+</head>
+<body>
+
+<h2>Tags</h2>
+<p class="small">
+    A tag is a keyword or label that categorizes your question with other, similar questions.
+    Using the right tags makes it easier for others to find and answer your question.
+</p>
+<div th:each="tag : ${tags}">
+    <a th:href="@{'/search2' + '?searchBar=' + ${tag.tagName}}">
+        [[${tag.tagName}]]
+    </a>
+</div>
+
+</body>
+</html>
