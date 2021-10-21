@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="ISO-8859-1">
     <title>Registration and Login App</title>
-    <style>
-
-    </style>
-    <link th:href="@{/main.css}" rel="stylesheet"/>
+    <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<!--    <link th:href="@{/main.css}" rel="stylesheet"/>-->
 </head>
 <body>
+<header>
+    <div th:replace="~{fragments/navigation}"></div>
+</header>
 <a th:href="@{/}">Home</a>
 <div class="h2">
     <br>
