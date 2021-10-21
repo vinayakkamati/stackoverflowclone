@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class AnswerController {
@@ -88,6 +89,51 @@ public class AnswerController {
                                @RequestParam("questionId") Integer questionId,
                                Model model) {
         answerService.deleteAnswerById(answerId);
+        return questionController.showQuestion(questionId, model);
+    }
+
+
+    @PostMapping("/answerUpvote/{answerId}")
+    public String upvoteAnswer(@PathVariable(name = "answerId") Integer answerId,   @RequestParam( value = "questionId") Integer questionId , Model model){
+        User user = userService.getUserFromContext();
+        Answer answer = answerService.getAnswerById(answerId);
+        Set<User> upVotes= answer.getUpVotes();
+        Set<User>downVotes=answer.getDownVotes();
+
+        if(!upVotes.contains(user)){
+            if(downVotes.contains(user)){
+                downVotes.remove(user);
+            }
+            upVotes.add(user);
+        }
+        answer.setUpVotes(upVotes);
+        answer.setDownVotes(downVotes);
+        answerService.save(answer);
+        Question question = questionService.getQuestionById(questionId);
+        model.addAttribute("question", question);
+        model.addAttribute("user", user);
+        return questionController.showQuestion(questionId, model);
+    }
+
+    @PostMapping("/answerDownvote/{answerId}")
+    public String downVoteAnswer(@PathVariable(name = "answerId") Integer answerId,   @RequestParam( value = "questionId") Integer questionId , Model model){
+        User user = userService.getUserFromContext();
+        Answer answer = answerService.getAnswerById(answerId);
+        Set<User> upVotes= answer.getUpVotes();
+        Set<User>downVotes=answer.getDownVotes();
+
+        if(!downVotes.contains(user)){
+            if(upVotes.contains(user)){
+                upVotes.remove(user);
+            }
+            downVotes.add(user);
+        }
+        answer.setUpVotes(upVotes);
+        answer.setDownVotes(downVotes);
+        answerService.save(answer);
+        Question question = questionService.getQuestionById(questionId);
+        model.addAttribute("question", question);
+        model.addAttribute("user", user);
         return questionController.showQuestion(questionId, model);
     }
 
