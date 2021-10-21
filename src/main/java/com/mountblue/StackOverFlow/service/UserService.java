@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     User getUserById(Integer userId) throws UserNotFoundException;
 
     void deleteUserById(Integer userId);
+
+    List<User> findUserByName(String keyword);
 }
