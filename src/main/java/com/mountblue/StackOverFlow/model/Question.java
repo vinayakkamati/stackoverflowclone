@@ -24,7 +24,10 @@ public class Question {
     private int viewCount;
 
     @Column(name = "vote_counts")
-    private int voteCount;
+    private int voteCount = 0;
+
+    @Column(name = "reputation")
+    private int reputation = 1;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
@@ -60,7 +63,7 @@ public class Question {
     }
 
     public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments,
-                    List<Answer> answers, Set<Tag> tags, User author) {
+                    List<Answer> answers, Set<Tag> tags, User author, int reputation) {
         this.questionId = questionId;
         this.title = title;
         this.description = description;
@@ -73,6 +76,7 @@ public class Question {
         this.answers = answers;
         this.tags = tags;
         this.author = author;
+        this.reputation = reputation;
 
     }
 
@@ -172,4 +176,11 @@ public class Question {
         this.author = author;
     }
 
+    public int getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(int reputation) {
+        this.reputation = reputation;
+    }
 }

@@ -45,29 +45,29 @@ public class Answer {
     @Column(name = "is_accepted")
     private Boolean isAccepted = false;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "positive_votes",
-            joinColumns = @JoinColumn(name = "answer_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> positiveVotes;
-
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
-            CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "negative_votes",
-            joinColumns = @JoinColumn(name = "answer_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> negativeVotes;
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(
+//            name = "positive_votes",
+//            joinColumns = @JoinColumn(name = "answer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private Set<User> positiveVotes;
+//
+//    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+//            CascadeType.REFRESH, CascadeType.DETACH})
+//    @JoinTable(
+//            name = "negative_votes",
+//            joinColumns = @JoinColumn(name = "answer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id")
+//    )
+//    private Set<User> negativeVotes;
 
 
     public Answer() {
     }
 
     public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<AnsComment> comments, Question question, User author,
-                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
+                  Boolean isAccepted, int voteCount, int reputation) {
         this.answerId = answerId;
         this.content = content;
         this.createTime = createTime;
@@ -77,8 +77,8 @@ public class Answer {
         this.question = question;
         this.author = author;
         this.isAccepted = isAccepted;
-        this.positiveVotes = positiveVotes;
-        this.negativeVotes = negativeVotes;
+//        this.positiveVotes = positiveVotes;
+//        this.negativeVotes = negativeVotes;
     }
 
     public Integer getAnswerId() {
@@ -153,21 +153,22 @@ public class Answer {
         isAccepted = accepted;
     }
 
-    public Set<User> getPositiveVotes() {
-        return positiveVotes;
-    }
 
-    public void setPositiveVotes(Set<User> positiveVotes) {
-        this.positiveVotes = positiveVotes;
-    }
-
-    public Set<User> getNegativeVotes() {
-        return negativeVotes;
-    }
-
-    public void setNegativeVotes(Set<User> negativeVotes) {
-        this.negativeVotes = negativeVotes;
-    }
+    //    public Set<User> getPositiveVotes() {
+//        return positiveVotes;
+//    }
+//
+//    public void setPositiveVotes(Set<User> positiveVotes) {
+//        this.positiveVotes = positiveVotes;
+//    }
+//
+//    public Set<User> getNegativeVotes() {
+//        return negativeVotes;
+//    }
+//
+//    public void setNegativeVotes(Set<User> negativeVotes) {
+//        this.negativeVotes = negativeVotes;
+//    }
 
 
 }
