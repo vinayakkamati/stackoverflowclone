@@ -1,33 +1,31 @@
 package com.mountblue.StackOverFlow.service.impl;
 
-import com.mountblue.StackOverFlow.exception.UserNotFoundException;
 import com.mountblue.StackOverFlow.model.Role;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.repository.UserRepository;
 import com.mountblue.StackOverFlow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
+    @Autowired
     private final UserRepository userRepository;
-//    @Autowired
-//    public void setUserRepository(UserRepository userRepository) {
-//        this.userRepository = userRepository;
-//    }
 
     private BCryptPasswordEncoder passwordEncoder;
 
@@ -58,18 +56,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(Integer userId) throws UserNotFoundException {
-        try {
-            return userRepository.findById(userId).get();
-        }catch (NoSuchElementException ex){
-            throw new UserNotFoundException("Could not found user with ID"+userId);
-        }
+    public User getUserById(Integer userId) {
 
+       return userRepository.getById(userId);
+    }
+
+
+    @Override
+    public User getUserByEmail(String currentUserEmail) {
+        return userRepository.getUserByEmail(currentUserEmail);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username);
+        User user = userRepository.getUserByEmail(username);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid Username or Password");
         }
@@ -87,17 +87,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> findUserByName(String keyword) {
-        return userRepository.findAll(keyword);
-    }
-
-    public User getCurrentUser() {
-        Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getUserFromContext(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = null;
-        if(principal instanceof UserDetails){
-            String username = ((UserDetails) principal).getUsername();
-            System.out.println("Current User Details: " + username);
-            user = userRepository.findByEmail(username);
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userRepository.getUserByEmail(currentUserEmail);
+
         }
         return user;
     }

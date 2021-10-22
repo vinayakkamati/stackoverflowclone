@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 
-public interface UserService extends UserDetailsService {
+public interface UserService  {
     List<User>listAll();
 
     void saveUser(User user);
@@ -17,4 +17,7 @@ public interface UserService extends UserDetailsService {
     void deleteUserById(Integer userId);
 
     List<User> findUserByName(String keyword);
+
+    User getUserByEmail(String currentUserEmail);
+    public User getUserFromContext();
 }

@@ -15,7 +15,7 @@ public class Question {
     private Integer questionId;
 
     @Column(name = "title")
-    private String  title;
+    private String title;
 
     @Column(name = "description", columnDefinition = "text")
     private String description;
@@ -24,12 +24,15 @@ public class Question {
     private int viewCount;
 
     @Column(name = "vote_counts")
-    private int voteCount;
+    private int voteCount = 0;
+
+    @Column(name = "reputation")
+    private int reputation = 1;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "created_at")
     @CreationTimestamp
-    private Date  createDate;
+    private Date createDate;
 
     @Column(name = "que_tag")
     private String tag;
@@ -47,27 +50,45 @@ public class Question {
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "question_tags",
-            joinColumns = { @JoinColumn(name = "question_id")},
-            inverseJoinColumns = { @JoinColumn (name = "tag_id")})
+            joinColumns = {@JoinColumn(name = "question_id")},
+            inverseJoinColumns = {@JoinColumn(name = "tag_id")})
     private Set<Tag> tags = new HashSet<>();
 
-    @ManyToOne(cascade =CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "user_id ")
-    private User  author;
+    private User author;
 
-    @Column(name = "authorId", nullable = false)
-    private int authorId;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "question_upvotes",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> upVotes = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "question_downvotes",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> downVotes = new HashSet<>();
+
 
     public Question() {
     }
 
-    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments,
-                    List<Answer> answers, Set<Tag> tags, User author, int authorId) {
+    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, int reputation, Date createDate, String tag, Date updateDate, List<QuesComment> comments, List<Answer> answers, Set<Tag> tags, User author, Set<User> upVotes, Set<User> downVotes) {
         this.questionId = questionId;
         this.title = title;
         this.description = description;
         this.viewCount = viewCount;
         this.voteCount = voteCount;
+        this.reputation = reputation;
         this.createDate = createDate;
         this.tag = tag;
         this.updateDate = updateDate;
@@ -75,7 +96,8 @@ public class Question {
         this.answers = answers;
         this.tags = tags;
         this.author = author;
-        this.authorId = authorId;
+        this.upVotes = upVotes;
+        this.downVotes = downVotes;
     }
 
     public Integer getQuestionId() {
@@ -116,6 +138,14 @@ public class Question {
 
     public void setVoteCount(int voteCount) {
         this.voteCount = voteCount;
+    }
+
+    public int getReputation() {
+        return reputation;
+    }
+
+    public void setReputation(int reputation) {
+        this.reputation = reputation;
     }
 
     public Date getCreateDate() {
@@ -174,11 +204,19 @@ public class Question {
         this.author = author;
     }
 
-    public int getAuthorId() {
-        return authorId;
+    public Set<User> getUpVotes() {
+        return upVotes;
     }
 
-    public void setAuthorId(int authorId) {
-        this.authorId = authorId;
+    public void setUpVotes(Set<User> upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public Set<User> getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(Set<User> downVotes) {
+        this.downVotes = downVotes;
     }
 }

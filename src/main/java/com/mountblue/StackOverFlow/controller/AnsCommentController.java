@@ -5,8 +5,12 @@ import com.mountblue.StackOverFlow.model.Answer;
 import com.mountblue.StackOverFlow.model.User;
 import com.mountblue.StackOverFlow.service.AnsCommentService;
 import com.mountblue.StackOverFlow.service.AnswerService;
+import com.mountblue.StackOverFlow.service.UserService;
 import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,22 +19,43 @@ import java.util.List;
 
 @Controller
 public class AnsCommentController {
+    AnswerService answerService;
+    AnsCommentService ansCommentService;
+    UserService userService;
+    QuestionController questionController;
 
     @Autowired
-    AnswerService answerService;
+    public void setAnswerService(AnswerService answerService) {
+        this.answerService = answerService;
+    }
+
     @Autowired
-    AnsCommentService ansCommentService;
+    public void setAnsCommentService(AnsCommentService ansCommentService) {
+        this.ansCommentService = ansCommentService;
+    }
+
     @Autowired
-    UserServiceImpl userServiceImpl;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
     @Autowired
-    QuestionController questionController;
+    public void setQuestionController(QuestionController questionController) {
+        this.questionController = questionController;
+    }
 
     @PostMapping("/ansComment/{ansId}")
     public String saveAnsComment(@PathVariable(value = "ansId") Integer answerId,
                                  @RequestParam(value = "content") String content,
                                  @RequestParam("questionId") Integer questionId,
                                  Model model) {
-        User user = userServiceImpl.getCurrentUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserEmail = authentication.getName();
+            user = userService.getUserByEmail(currentUserEmail);
+
+        }
         Answer answer = answerService.getAnswerById(answerId);
         AnsComment ansComment = new AnsComment();
         ansComment.setContent(content);
@@ -46,8 +71,8 @@ public class AnsCommentController {
 
     @GetMapping("/editAnswerComment/{commentId}")
     public String editAnsComment(@PathVariable(name = "commentId") Integer commentId,
-                              @RequestParam("questionId") Integer questionId,
-                              Model model) {
+                                 @RequestParam("questionId") Integer questionId,
+                                 Model model) {
         AnsComment editAnsComment = ansCommentService.getAnsCommentById(commentId);
         model.addAttribute("editAnsComment", editAnsComment);
         return questionController.showQuestion(questionId, model);
@@ -72,6 +97,6 @@ public class AnsCommentController {
                                 Model model) {
         ansCommentService.deleteAnswerCommentById(commentId);
 
-       return questionController.showQuestion(questionId, model);
+        return questionController.showQuestion(questionId, model);
     }
 }

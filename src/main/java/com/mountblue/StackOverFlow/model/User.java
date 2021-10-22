@@ -29,6 +29,10 @@ public class User {
     @Column(name = "reputations")
     private int reputation = 1;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "avatar_id")
+    private Image avatar;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -37,27 +41,25 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "author", cascade = {
-            CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "author", cascade =CascadeType.ALL)
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "author", cascade = {
-            CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
     private List<Answer> answers;
 
 
     public User() {
     }
 
-    public User(int userId, String name, String email, String password, int reputation, Set<Role> roles,
+
+    public User(int userId, String name, String email, String password, int reputation, Image avatar, Set<Role> roles,
                 List<Question> questions, List<Answer> answers) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.reputation = reputation;
+        this.avatar = avatar;
         this.roles = roles;
         this.questions = questions;
         this.answers = answers;
@@ -125,5 +127,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Image getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 }
