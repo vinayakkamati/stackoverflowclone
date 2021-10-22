@@ -86,6 +86,11 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(userId);
     }
 
+    @Override
+    public List<User> findUserByName(String keyword) {
+        return userRepository.findAll(keyword);
+    }
+
     public User getCurrentUser() {
         Object principal =  SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = null;
