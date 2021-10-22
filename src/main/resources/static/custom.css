@@ -1,11 +1,23 @@
 body {
-    background-image:  url("/public/images/background-image.svg");
+    background-image:  url("https://149351115.v2.pressablecdn.com/wp-content/uploads/2018/05/SO_Teams.png");
     background-position: top left;
     background-repeat: repeat;
     background-color: #f7f7f7;
-    background-size: auto;
+    background-size: relative;
 }
+.main-header{
+display:flex;
+width:100%;
+flex-direction:column;
+}
+.header2{
+display:flex;
+width:100%;
+justify-content:space-between;
 
+}
+.ask{
+margin-left:300px;}
 .navbar {
     position: fixed;
     min-width: auto;
@@ -14,15 +26,18 @@ body {
     left: 0;
     width: 100%;
     z-index: 5050;
-    background-color: var(--black-025);
+    background-color: var(210, 8%, 97.5%);
     height: 50px;
     font-family: var(--ff-sans);
     box-sizing: border-box;
     border-top: 3px  solid hsl(27, 90%, 50%);
 }
 
+.col-md-2, .footer-container{
+    background-color: hsl(0, 0%, 95%);
+}
+
 .left-sidebar{
-    position: absolute;
     top: 10%;
 }
 
@@ -53,7 +68,7 @@ body {
     color: #535a60;
 }
 
-/*.question-summary > a:hover {
+.question-summary > a:hover {
     text-decoration: none;
 }
 
@@ -63,7 +78,7 @@ body {
 
 .question-summary .user-info a {
     color: #5bc0de;
-}*/
+}
 
 .user-browser a:hover {
     text-decoration: none;
@@ -72,7 +87,7 @@ body {
 a:hover {
     text-decoration: none;
 }
-/*
+
 
 .vote-up {
     width: 0;
@@ -98,7 +113,7 @@ a:hover {
     object-fit: cover;
     object-position: 0 0;
 }
-*/
+
 
 .user-avatar img {
     width: 164px;

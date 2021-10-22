@@ -3,9 +3,9 @@
       lang="ru" class="h-100">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<!--    <meta name="viewport"-->
+<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
+<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
     <title>Stack Overflow Clone</title>
     <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
@@ -30,12 +30,13 @@
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 bg-white border p-0 h-auto">
                 <div class="content">
-                    <div class="content-header mt-4 mx-4">
-                        <div class="section-title mb-3 clearfix">
-                            <div class="float-left h3 font-weight-normal">Explore Our Questions</div>
-                            <a class="float-right btn btn-primary" th:href="@{/new}">Ask Question</a>
+                    <div class="content-header mt-4 mx-4 main-header">
+                        <div class="section-title mb-3 clearfix header2">
+                            <div class="float-left h3 font-weight-normal ">Explore Our Questions</div>
+                            <a class="float-right btn btn-primary ask" th:href="@{/new}">Ask Question</a>
+
                         </div>
-                        <div class="search-form-wrapper mb-3 d-flex justify-content-between">
+                        <div class="search-form-wrapper mb-4 d-flex justify-content-between">
                             <div class="tags float-left w-50">
                                 <div class="d-inline-block" th:each="tag : ${tags}">
                                     <a class="mr-1 bg-light small rounded p-1 text-info" th:href="${'/tags/' + tag.id}"
@@ -109,6 +110,7 @@
         </div>
     </div>
 </main>
+
 <footer class="footer">
     <div th:replace="~{fragments/footer :: footer}"></div>
 </footer>
