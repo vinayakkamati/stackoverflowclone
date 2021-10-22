@@ -134,7 +134,9 @@ public class QuestionController {
         Set<User>upVotes= question.getUpVotes();
         Set<User>downVotes=question.getDownVotes();
 
-        if(!upVotes.contains(user)){
+        if(upVotes.contains(user)){
+             upVotes.remove(user);
+        }else{
             if(downVotes.contains(user)){
                 downVotes.remove(user);
             }
@@ -155,7 +157,9 @@ public class QuestionController {
         Set<User>upVotes= question.getUpVotes();
         Set<User>downVotes=question.getDownVotes();
 
-        if(!downVotes.contains(user)){
+        if(downVotes.contains(user)){
+             downVotes.remove(user);
+        }else {
             if(upVotes.contains(user)){
                 upVotes.remove(user);
             }

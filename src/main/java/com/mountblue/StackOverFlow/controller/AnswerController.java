@@ -100,7 +100,9 @@ public class AnswerController {
         Set<User> upVotes= answer.getUpVotes();
         Set<User>downVotes=answer.getDownVotes();
 
-        if(!upVotes.contains(user)){
+        if(upVotes.contains(user)){
+            upVotes.remove(user);
+        }else{
             if(downVotes.contains(user)){
                 downVotes.remove(user);
             }
@@ -122,7 +124,9 @@ public class AnswerController {
         Set<User> upVotes= answer.getUpVotes();
         Set<User>downVotes=answer.getDownVotes();
 
-        if(!downVotes.contains(user)){
+        if(downVotes.contains(user)){
+            downVotes.remove(user);
+        }else {
             if(upVotes.contains(user)){
                 upVotes.remove(user);
             }
