@@ -42,7 +42,7 @@ public class HomeControllerForQuestions {
                                           Model model) {
         int pageSize = 2;
         Page<Question> page = questionService.findPaginated(pageNo, pageSize, sortField, sortDir, keyword);
-        User user = userServiceImpl.getCurrentUser();
+        User user = userServiceImpl.getUserFromContext();
         List<Question> listQuestions = page.getContent();
 
         model.addAttribute("user", user);

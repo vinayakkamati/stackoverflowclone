@@ -29,7 +29,7 @@ margin-left:300px;}
     background-color: var(210, 8%, 97.5%);
     height: 50px;
     font-family: var(--ff-sans);
-    box-sizing: border-box;
+    box-sizing: b   order-box;
     border-top: 3px  solid hsl(27, 90%, 50%);
 }
 
