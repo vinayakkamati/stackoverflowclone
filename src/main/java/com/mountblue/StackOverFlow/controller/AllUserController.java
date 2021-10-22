@@ -1,7 +1,9 @@
 package com.mountblue.StackOverFlow.controller;
 
 import com.mountblue.StackOverFlow.exception.UserNotFoundException;
+import com.mountblue.StackOverFlow.model.Role;
 import com.mountblue.StackOverFlow.model.User;
+import com.mountblue.StackOverFlow.service.RoleService;
 import com.mountblue.StackOverFlow.service.UserService;
 import com.mountblue.StackOverFlow.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class AllUserController {
@@ -20,6 +23,14 @@ public class AllUserController {
     public AllUserController(UserServiceImpl userServiceImpl) {
         this.userServiceImpl = userServiceImpl;
     }
+
+    private RoleService roleService;
+
+    @Autowired
+    public void setRoleService(RoleService roleService) {
+        this.roleService = roleService;
+    }
+
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -71,5 +82,27 @@ public class AllUserController {
             redirectAttributes.addFlashAttribute("message", e.getMessage());
             return "redirect:/allUsers";
         }
+    }
+    @GetMapping("/allUsers/editProfile/{id}")
+    public String editProfile(@PathVariable(value = "id")Integer userId, Model model,RedirectAttributes redirectAttributes)  {
+
+        try {
+            User user = userService.getUserById(userId);
+            model.addAttribute("user", user);
+            return "editProfile";
+        } catch (UserNotFoundException e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            return "redirect:/allUsers";
+        }
+
+    }
+    @PostMapping("/allUsers/updateUser")
+    public  String updateUser(@ModelAttribute("user") User user){
+        Role role = roleService.getRoleByName("ROLE_USER");
+        Set<Role> roles= user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);
+        userService.saveUser(user);
+        return "redirect:/allUsers";
     }
 }

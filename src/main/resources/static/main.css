@@ -27,3 +27,29 @@
     left: 760px;
     top: 100px;
 }
+
+.user-gravatar.gravatar-50 img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+.user-avatar img {
+    width: 164px;
+    height: 164px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+.user-gravatar.gravatar-32 img {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    object-position: 0 0;
+}
+
+.left-sidebar li.nav-item.active {
+    border-width: 3px !important;
+    background: #eff0f1;
+}
