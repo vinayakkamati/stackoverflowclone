@@ -56,11 +56,31 @@ public class Question {
     @JoinColumn(name = "user_id ")
     private User  author;
 
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "question_upvotes",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> upVotes = new HashSet<>();
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "question_downvotes",
+            joinColumns = @JoinColumn(name = "question_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> downVotes = new HashSet<>();
+
+
     public Question() {
     }
 
-    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments,
-                    List<Answer> answers, Set<Tag> tags, User author) {
+    public Question(Integer questionId, String title, String description, int viewCount, int voteCount, Date createDate, String tag, Date updateDate, List<QuesComment> comments, List<Answer> answers, Set<Tag> tags,
+                    User author, Set<User> upVotes, Set<User> downVotes) {
         this.questionId = questionId;
         this.title = title;
         this.description = description;
@@ -73,7 +93,8 @@ public class Question {
         this.answers = answers;
         this.tags = tags;
         this.author = author;
-
+        this.upVotes = upVotes;
+        this.downVotes = downVotes;
     }
 
     public Integer getQuestionId() {
@@ -170,6 +191,29 @@ public class Question {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public Set<User> getUpVotes() {
+        return upVotes;
+    }
+
+    public void setUpVotes(Set<User> upVotes) {
+        this.upVotes = upVotes;
+    }
+
+    public Set<User> getDownVotes() {
+        return downVotes;
+    }
+
+    public void setDownVotes(Set<User> downVotes) {
+        this.downVotes = downVotes;
+    }
+
+    public Integer getRating() {
+        if (upVotes != null && downVotes != null) {
+            return upVotes.size() - downVotes.size();
+        }
+        return 0;
     }
 
 }

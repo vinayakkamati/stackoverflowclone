@@ -2,10 +2,7 @@ package com.mountblue.StackOverFlow.model;
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "answers")
@@ -45,29 +42,30 @@ public class Answer {
     @Column(name = "is_accepted")
     private Boolean isAccepted = false;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
-            name = "positive_votes",
+            name = "answer_upvotes",
             joinColumns = @JoinColumn(name = "answer_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> positiveVotes;
+    private Set<User> upVotes = new HashSet<>();
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
             CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
-            name = "negative_votes",
+            name = "answer_downvotes",
             joinColumns = @JoinColumn(name = "answer_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> negativeVotes;
+    private Set<User> downVotes = new HashSet<>();
 
 
     public Answer() {
     }
 
     public Answer(Integer answerId, String content, Date createTime, String userName, String email, List<AnsComment> comments, Question question, User author,
-                  Boolean isAccepted, Set<User> positiveVotes, Set<User> negativeVotes) {
+                  Boolean isAccepted, Set<User> upVotes, Set<User> downVotes) {
         this.answerId = answerId;
         this.content = content;
         this.createTime = createTime;
@@ -77,8 +75,8 @@ public class Answer {
         this.question = question;
         this.author = author;
         this.isAccepted = isAccepted;
-        this.positiveVotes = positiveVotes;
-        this.negativeVotes = negativeVotes;
+        this.upVotes = upVotes;
+        this.downVotes = downVotes;
     }
 
     public Integer getAnswerId() {
@@ -153,21 +151,26 @@ public class Answer {
         isAccepted = accepted;
     }
 
-    public Set<User> getPositiveVotes() {
-        return positiveVotes;
+    public Set<User> getUpVotes() {
+        return upVotes;
     }
 
-    public void setPositiveVotes(Set<User> positiveVotes) {
-        this.positiveVotes = positiveVotes;
+    public void setUpVotes(Set<User> upVotes) {
+        this.upVotes = upVotes;
     }
 
-    public Set<User> getNegativeVotes() {
-        return negativeVotes;
+    public Set<User> getDownVotes() {
+        return downVotes;
     }
 
-    public void setNegativeVotes(Set<User> negativeVotes) {
-        this.negativeVotes = negativeVotes;
+    public void setDownVotes(Set<User> downVotes) {
+        this.downVotes = downVotes;
     }
 
-
+    public Integer getRating() {
+        if (upVotes != null && downVotes != null) {
+            return upVotes.size() - downVotes.size();
+        }
+        return 0;
+    }
 }

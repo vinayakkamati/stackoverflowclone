@@ -49,6 +49,20 @@
     <th:block th:each="question : ${listQuestions}">
         <div class="ques-item">
             <div>
+                <span>
+                    <span  th:text="${question.getRating()}"></span>
+                    <span>votes</span>
+                </span>
+                <span>
+                    <span  th:text="${question.answers.size()}"></span>
+                    <span >Answers</span>
+                </span>
+                <span>
+                    <span>5 </span>
+                    <span >Views</span>
+                </span>
+            </div>
+            <div>
                 <a th:href="@{/questions/{id}(id=${question.questionId})}">[[${question.title}]]</a>
             </div>
             <span th:each="tag : ${question.tags}">
