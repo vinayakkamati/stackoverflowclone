@@ -70,7 +70,7 @@
                             <div class="question-body" th:text="${question.description}"></div>
                             <div class="d-flex tags-wrapper mb-3">
                                 <div th:each="tag : ${question.tags}">
-                                    <a class="mr-1 bg-light small rounded p-1 text-info" th:href="${'/tags/' + tag.id}"
+                                    <a class="mr-1 bg-light small rounded p-1 text-info"
                                        th:text="${tag.tagName}"></a>
                                 </div>
                             </div>
@@ -96,7 +96,7 @@
                                          th:alt="${'user-avatar-' + question.author.id}">
                                 </div>
                                 <div class="user-details float-left small">
-                                    <a th:href="${'/accounts/' + question.author.id}"
+                                    <a th:href="${'/users/viewUser/' + question.author.userId}"
                                        th:text="${question.author.name}"></a>
                                 </div>
                             </div>
@@ -206,16 +206,14 @@
                     <div th:if="${admin} or ${user}!=null">
                         <form th:action="@{/postAnswer/{id}(id=${question.questionId})}"
                               method="post" th:object="${answer}">
-                            <input type="hidden" th:field="*{id}">
-                            <input type="hidden" th:field="*{question}">
                             <div class="form-group">
                                 <label for="answer-content">Your Answer</label>
-                                <textarea id="answer-content" class="form-control" th:field="*{content}" name="content" cols="30" rows="10">
+                                <textarea id="answer-content" class="form-control" name="content" cols="30" rows="10">
 
                             </textarea>
                             </div>
                             <div class="form-group">
-                                <input type="submit" th:value="Post Answer"
+                                <input type="submit" value="Post Answer"
                                        class="btn btn-primary"/>
                             </div>
                         </form>
