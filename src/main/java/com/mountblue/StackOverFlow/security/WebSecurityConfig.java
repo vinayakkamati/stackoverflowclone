@@ -50,7 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/resources/**",
                         "/webjars/**",
                         "/css/**",
-                        "/static/img/**").permitAll()
+                        "/static/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
