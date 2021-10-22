@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Question</title>
+    <<<<<<< HEAD
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -40,11 +41,11 @@
                         </div>
                     </div>
                     <div class="question-details d-flex mb-3 border-bottom">
-<!--                        <div class="small mr-3 mb-2">-->
-<!--                            <span class="text-muted">Asked</span>-->
-<!--                            <span th:text="${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
-<!--                            </span>-->
-<!--                        </div>-->
+                        <!--                        <div class="small mr-3 mb-2">-->
+                        <!--                            <span class="text-muted">Asked</span>-->
+                        <!--                            <span th:text="${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
+                        <!--                            </span>-->
+                        <!--                        </div>-->
                         <div class="small mr-3 mb-2">
                             <span class="text-muted">Active</span>
                             today
@@ -59,11 +60,11 @@
                             <a href="">
                                 <div class="vote-up"></div>
                             </a>
-<!--                            <div class="vote-count my-3">-->
-<!--                                <span th:text="${question.getRating()}"-->
-<!--                                      class="question_rating text-muted h5 font-weight-bold">-->
-<!--                               </span>-->
-<!--                            </div>-->
+                            <!--                            <div class="vote-count my-3">-->
+                            <!--                                <span th:text="${question.getRating()}"-->
+                            <!--                                      class="question_rating text-muted h5 font-weight-bold">-->
+                            <!--                               </span>-->
+                            <!--                            </div>-->
                             <a href="">
                                 <div class="vote-down"></div>
                             </a>
@@ -129,51 +130,84 @@
                             </form>
                         </div>
                     </div>
+                    <div>
+                        <!-- <a th:href="@{'/'}"><span class="fa fa-arrow-up"></span></a>-->
+                        <div>
+                            <a th:href="@{'/questionUpvote/'+${question.questionId}}">
+                                <span class="fa fa-arrow-up"></span>
+                            </a>
+                            <div th:if="${question.upVotes != null}">
+                                <span>[[${question.getRating()}]]</span>
+                            </div>
+                            <a th:href="@{'/questionDownvote/'+${question.questionId}}">
+                                <span class="fa fa-arrow-down"></span>
+                            </a>
+                        </div>
+                    </div>
 
-<!--                    <div th:if="${admin} or ${user!=null} and ${user.userId}==${question.author.userId}">-->
-<!--                        <button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>-->
-<!--                        <form th:action="@{'/question/delete/' + ${question.questionId}}">-->
-<!--                            <input type="submit" value="Delete">-->
-<!--                        </form>-->
-<!--                    </div>-->
+                    <br>
 
 
+                    <!--                    <div th:if="${admin} or ${user!=null} and ${user.userId}==${question.author.userId}">-->
+                    <!--                        <button><a th:href="@{'/update/'+ ${question.questionId}}">Edit</a></button>-->
+                    <!--                        <form th:action="@{'/question/delete/' + ${question.questionId}}">-->
+                    <!--                            <input type="submit" value="Delete">-->
+                    <!--                        </form>-->
+                    <!--                    </div>-->
 
-<!--                    <section>-->
-<!--                        <th:block th:each="quesComment : ${question.comments}">-->
-<!--                            <div th:if="${quesComment}!=null">-->
-<!--                                <p th:text="${quesComment.content}"></p>-->
-<!--                                <div th:if="${admin} or ${user}!=null and ${user.email}==${quesComment.email}">-->
-<!--                                    <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}"-->
-<!--                                          method="get">-->
-<!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
-<!--                                        <input type="submit" value="Edit"/>-->
-<!--                                    </form>-->
-<!--                                    <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}"-->
-<!--                                          method="get">-->
-<!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
-<!--                                        <input type="submit" value="Delete"/>-->
-<!--                                    </form>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div th:if="${editComment}!=null and ${editComment.commentId}==${quesComment.commentId}">-->
-<!--                                <form th:action="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}"-->
-<!--                                      method="post">-->
-<!--                                    <input type="hidden" name="questionId" th:value="${question.questionId}"/> <br/>-->
-<!--                                    <input type="text" name="content" th:value="${quesComment.content}"-->
-<!--                                           placeholder="add your Comment..."/>-->
-<!--                                    <br/>-->
-<!--                                    <input type="submit" value="Update Comment"/>-->
-<!--                                </form>-->
-<!--                            </div>-->
-<!--                        </th:block>-->
-<!--                    </section>-->
+
+                    <!--                    <section>-->
+                    <!--                        <th:block th:each="quesComment : ${question.comments}">-->
+                    <!--                            <div th:if="${quesComment}!=null">-->
+                    <!--                                <p th:text="${quesComment.content}"></p>-->
+                    <!--                                <div th:if="${admin} or ${user}!=null and ${user.email}==${quesComment.email}">-->
+                    <!--                                    <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}"-->
+                    <!--                                          method="get">-->
+                    <!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
+                    <!--                                        <input type="submit" value="Edit"/>-->
+                    <!--                                    </form>-->
+                    <!--                                    <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}"-->
+                    <!--                                          method="get">-->
+                    <!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
+                    <!--                                        <input type="submit" value="Delete"/>-->
+                    <!--                                    </form>-->
+                    <!--                                </div>-->
+                    <!--                            </div>-->
+                    <!--                            <div th:if="${editComment}!=null and ${editComment.commentId}==${quesComment.commentId}">-->
+                    <!--                                <form th:action="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}"-->
+                    <!--                                      method="post">-->
+                    <!--                                    <input type="hidden" name="questionId" th:value="${question.questionId}"/> <br/>-->
+                    <!--                                    <input type="text" name="content" th:value="${quesComment.content}"-->
+                    <!--                                           placeholder="add your Comment..."/>-->
+                    <!--                                    <br/>-->
+                    <!--                                    <input type="submit" value="Update Comment"/>-->
+                    <!--                                </form>-->
+                    <!--                            </div>-->
+                    <!--                        </th:block>-->
+                    <!--                    </section>-->
                 </div>
                 <h2>Answers</h2>
                 <div class="answers-list-container border-top">
                     <section>
                         <th:block th:each="answer:${question.answers}">
                             <div th:if="${answer}!=null">
+                                <div>
+                                    <form th:action="@{'/answerUpvote/'+${answer.answerId}}" method="post">
+                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                        <button type="submit" class="btn " style="background-color:transparent;">
+                                            <span class="fa fa-arrow-up"></span>
+                                        </button>
+                                    </form>
+                                    <div style="padding-left: 15px">
+                                        <span>[[${answer.getRating()}]]</span>
+                                    </div>
+                                    <form th:action="@{'/answerDownvote/'+${answer.answerId}}" method="post">
+                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                        <button type="submit" class="btn " style="background-color:transparent;">
+                                            <span class="fa fa-arrow-down"></span>
+                                        </button>
+                                    </form>
+                                </div>
                                 <p th:text="${answer.content}"></p>
                                 <div th:if="${admin} or ${user}!=null and ${user.userId}==${answer.author.userId}">
                                     <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">

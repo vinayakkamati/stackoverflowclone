@@ -50,12 +50,47 @@
         Sort by Question
     </a>
 </div>
-<!--<div class="row col-sm-1" sec:authorize="!isAuthenticated()"><a th:href="@{/login}" class="btn btn-primary btn-sm mb-3">-->
-<!--    Login </a></div>-->
 
-<!--<div class="row col-sm-1"><span sec:authorize="isAuthenticated()"><a th:href="@{/logout}"-->
-<!--                                                                     class="btn btn-primary btn-sm mb-3">Logout</a></span>-->
+
+
+
+
+
+
+<!--ADITYA CODE -->
+
+
+
+<!--<div class="container">-->
+<!--    <th:block th:each="question : ${listQuestions}">-->
+<!--        <div class="ques-item">-->
+<!--            <div>-->
+<!--                <span>-->
+<!--                    <span  th:text="${question.getRating()}"></span>-->
+<!--                    <span>votes</span>-->
+<!--                </span>-->
+<!--                <span>-->
+<!--                    <span  th:text="${question.answers.size()}"></span>-->
+<!--                    <span >Answers</span>-->
+<!--                </span>-->
+<!--                <span>-->
+<!--                    <span>5 </span>-->
+<!--                    <span >Views</span>-->
+<!--                </span>-->
+<!--            </div>-->
+<!--            <div>-->
+<!--                <a th:href="@{/questions/{id}(id=${question.questionId})}">[[${question.title}]]</a>-->
+<!--            </div>-->
+<!--            <span th:each="tag : ${question.tags}">-->
+<!--                  <span>[[${tag.tagName}]]</span> &nbsp; &nbsp;-->
+<!--            </span>-->
+<!--        </div>-->
+<!--    </th:block>-->
 <!--</div>-->
+
+
+
+
 
 <footer class="footer">
     <div th:replace="~{fragments/footer :: footer}"></div>

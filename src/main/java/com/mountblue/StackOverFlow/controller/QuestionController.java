@@ -126,5 +126,52 @@ public class QuestionController {
         questionService.deletePostById(questionId);
         return "redirect:/questions";
     }
+
+    @GetMapping("/questionUpvote/{questionId}")
+    public String upvoteQuestion(@PathVariable(name = "questionId") Integer questionId, Model model){
+        User user = userService.getUserFromContext();
+        Question question = questionService.getQuestionById(questionId);
+        Set<User>upVotes= question.getUpVotes();
+        Set<User>downVotes=question.getDownVotes();
+
+        if(upVotes.contains(user)){
+             upVotes.remove(user);
+        }else{
+            if(downVotes.contains(user)){
+                downVotes.remove(user);
+            }
+            upVotes.add(user);
+        }
+        question.setUpVotes(upVotes);
+        question.setDownVotes(downVotes);
+        questionService.save(question);
+        model.addAttribute("question", question);
+        model.addAttribute("user", user);
+        return "redirect:/questions/{questionId}";
+    }
+
+    @GetMapping("/questionDownvote/{questionId}")
+    public String downVoteQuestion(@PathVariable(name = "questionId") Integer questionId, Model model){
+        User user = userService.getUserFromContext();
+        Question question = questionService.getQuestionById(questionId);
+        Set<User>upVotes= question.getUpVotes();
+        Set<User>downVotes=question.getDownVotes();
+
+        if(downVotes.contains(user)){
+             downVotes.remove(user);
+        }else {
+            if(upVotes.contains(user)){
+                upVotes.remove(user);
+            }
+            downVotes.add(user);
+        }
+        question.setUpVotes(upVotes);
+        question.setDownVotes(downVotes);
+        questionService.save(question);
+        model.addAttribute("question", question);
+        model.addAttribute("user", user);
+        return "redirect:/questions/{questionId}";
+    }
+
 }
 
