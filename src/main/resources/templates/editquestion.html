@@ -43,13 +43,12 @@
                                 </textarea>
                             </div>
                             <div class="form-group">
-                                <label for="question_tags" th:text="#{question.form.tags}">Question tags</label>
-
-                                <input id="question_tags" type="text" th:field="*{tags}"
+                                <label for="question_tags">Question tags</label>
+                                <input id="question_tags" type="text" th:field="*{tag}"
                                        name="tags" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" th:value="Post Again"
+                                <input type="submit" name="submit" value="Post Again"
                                        class="btn btn-primary form-control">
                             </div>
                         </form>
@@ -60,9 +59,9 @@
         </div>
     </div>
 </main>
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 
 </body>
 </html>

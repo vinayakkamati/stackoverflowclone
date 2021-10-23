@@ -74,6 +74,15 @@ public class QuestionController {
         return "questions";
     }
 
+    @GetMapping("/")
+    public String showHome(Model model) {
+        User user = userService.getUserFromContext();
+        List<Question> listQuestions = questionService.getAllQuestions();
+        model.addAttribute("listQuestions", listQuestions);
+        model.addAttribute("user", user);
+        return "home";
+    }
+
     @GetMapping("/questions/{questionId}")
     public String getSelectedQuestion(@PathVariable("questionId") Integer questionId,
                                       Model model) {

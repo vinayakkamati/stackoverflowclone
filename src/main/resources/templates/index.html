@@ -14,7 +14,6 @@
 <!--    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>-->
 <!--    <link rel="stylesheet" th:href="@{/custom.css}">-->
     <link th:replace="~{fragments/styles}">
-    <link rel="stylesheet" th:href="/static/css/custom.css">
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -44,7 +43,7 @@
                                     <a class="mr-1 bg-light small rounded p-1 text-info" th:href="${'/tags/' + tag.id}"
                                        th:text="${tag.name}"></a>
                                 </div>
-                                <a th:href="@{/tags}" class="small text-info">more tags</a>
+<!--                                <a th:href="@{/tags}" class="small text-info">more tags</a>-->
                             </div>
                             <div class="btn-group float-right align-self-end" role="group">
                                 <button type="button"
@@ -113,9 +112,9 @@
     </div>
 </main>
 
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 
 </body>
 </html>

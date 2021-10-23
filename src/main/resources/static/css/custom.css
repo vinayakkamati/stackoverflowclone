@@ -3,21 +3,8 @@ body {
     background-position: top left;
     background-repeat: repeat;
     background-color: #f7f7f7;
-    background-size: relative;
+    background-size: auto;
 }
-.main-header{
-display:flex;
-width:100%;
-flex-direction:column;
-}
-.header2{
-display:flex;
-width:100%;
-justify-content:space-between;
-
-}
-.ask{
-margin-left:300px;}
 
 .navbar {
     position: fixed;
@@ -38,13 +25,12 @@ margin-left:300px;}
     background-color: hsl(0, 0%, 95%);
 }
 
-.left-sidebar{
-    top: 10%;
+.left-sidebar, .col-md-10{
+    top: 50px;
 }
 
 .content{
-     position: absolute;
-     top: 10%;
+     top: 50px;
 }
 
 .form-wrapper {

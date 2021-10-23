@@ -7,7 +7,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <title th:text="#{common.header.title}">Stack Overflow Clone</title>
+    <title>Stack Overflow Clone</title>
     <link th:replace="~{fragments/styles}">
 </head>
 <body class="d-flex flex-column h-100">
@@ -22,12 +22,11 @@
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 bg-white border p-0 h-auto">
                 <div class="content m-3">
-                    <div class="section-title mb-3"><h3 th:text="#{question.action.new}">Users</h3></div>
+                    <div class="section-title mb-3"><h3>Ask a Public Question</h3></div>
                     <div class="form-wrapper">
-                        <form th:action="@{/questions}" method="post" th:object="${question}">
+                        <form th:action="@{/postQuestion}" method="post" th:object="${question}">
                             <div class="form-group">
-                                <label for="question_title"
-                                       th:text="#{question.form.title}">Question title</label>
+                                <label for="question_title">Question title</label>
                                 <input id="question_title" type="text" th:field="*{title}"
                                        name="title" class="form-control">
                             </div>
@@ -41,11 +40,11 @@
                             <div class="form-group">
                                 <label for="question_tags">Question tags</label>
 
-                                <input id="question_tags" type="text" th:field="*{tags}"
+                                <input id="question_tags" type="text" th:field="*{tag}"
                                        name="tags" class="form-control">
                             </div>
                             <div class="form-group">
-                                <input type="submit" name="submit" th:value="#{question.form.submit}"
+                                <input type="submit" name="submit" value="Post Question"
                                        class="btn btn-primary form-control">
                             </div>
                         </form>
@@ -56,9 +55,8 @@
         </div>
     </div>
 </main>
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
-
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 </body>
 </html>

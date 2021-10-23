@@ -122,7 +122,7 @@
                                     <a class="text-info h5 font-weight-normal" th:href="@{/questions/{id}(id=${question.questionId})}"
                                        th:text="${question.title}"></a>
                                 </div>
-                                <div class="mb-1" th:text="${question.description}"></div>
+<!--                                <div class="mb-1" th:text="${question.description}"></div>-->
                                 <div class="float-left">
                                     <div class="d-inline-block" th:each="tag : ${question.tags}">
                                         <a class="mr-1 bg-light small rounded p-1 text-info" th:text="${tag.tagName}"></a>
@@ -176,8 +176,8 @@
         </div>
     </div>
 </main>
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 </body>
 </html>

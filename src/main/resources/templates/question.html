@@ -36,11 +36,11 @@
                         </div>
                     </div>
                     <div class="question-details d-flex mb-3 border-bottom">
-<!--                        <div class="small mr-3 mb-2">-->
-<!--                            <span class="text-muted">Asked</span>-->
-<!--                            <span th:text="${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
-<!--                            </span>-->
-<!--                        </div>-->
+                        <!--                        <div class="small mr-3 mb-2">-->
+                        <!--                            <span class="text-muted">Asked</span>-->
+                        <!--                            <span th:text="${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
+                        <!--                            </span>-->
+                        <!--                        </div>-->
                         <div class="small mr-3 mb-2">
                             <span class="text-muted">Active</span>
                             today
@@ -79,17 +79,19 @@
                                     <div class="edit-question text-muted small">
                                         edit question
                                     </div></a>
-                                </span>
+                                </span> &nbsp; &nbsp;
+                                <span>
                                 <a class="float-left" th:href="@{'/question/delete/' + ${question.questionId}}">
                                     <div class="delete-question text-muted small">
                                         delete question
                                     </div>
                                 </a>
+                                </span>
                             </div>
                             <div class="user-info float-right w-25">
-<!--                                <div class="text-muted small user-action-time"-->
-<!--                                     th:text="'asked ' + ${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
-<!--                                </div>-->
+                                <!--                                <div class="text-muted small user-action-time"-->
+                                <!--                                     th:text="'asked ' + ${question.getFormattedDate(question.createdDate, 'd MMM yy hh:mm')}">-->
+                                <!--                                </div>-->
                                 <div th:if="${question.author.avatar}"
                                      class="user-gravatar gravatar-32 float-left mr-2">
                                     <img th:src="@{'data:image/jpeg;base64,' + ${question.author.avatar.data}}"
@@ -100,74 +102,175 @@
                                        th:text="${question.author.name}"></a>
                                 </div>
                             </div>
-<!--                            <div th:if="${question.createdDate != question.lastModifiedDate}"-->
-<!--                                 class="user-info float-right w-25">-->
-<!--                                <div class="text-muted small user-action-time"-->
-<!--                                     th:text="'edited ' + ${question.getFormattedDate(question.lastModifiedDate, 'd MMM yy hh:mm')}">-->
+                            <!--                            <div th:if="${question.createdDate != question.lastModifiedDate}"-->
+                            <!--                                 class="user-info float-right w-25">-->
+                            <!--                                <div class="text-muted small user-action-time"-->
+                            <!--                                     th:text="'edited ' + ${question.getFormattedDate(question.lastModifiedDate, 'd MMM yy hh:mm')}">-->
 
-<!--                                </div>-->
-<!--                                <div th:if="${question.lastModifiedBy.avatar}"-->
-<!--                                     class="user-gravatar gravatar-32 float-left mr-2">-->
-<!--                                    <img th:src="@{'data:image/jpeg;base64,' + ${question.lastModifiedBy.avatar.data}}"-->
-<!--                                         th:alt="${'user-avatar-' + question.lastModifiedBy.id}">-->
-<!--                                </div>-->
-<!--                                <div class="user-details float-left small">-->
-<!--                                    <a th:href="${'/accounts/' + question.lastModifiedBy.id}"-->
-<!--                                       th:text="${question.lastModifiedBy.name}"></a>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                                </div>-->
+                            <!--                                <div th:if="${question.lastModifiedBy.avatar}"-->
+                            <!--                                     class="user-gravatar gravatar-32 float-left mr-2">-->
+                            <!--                                    <img th:src="@{'data:image/jpeg;base64,' + ${question.lastModifiedBy.avatar.data}}"-->
+                            <!--                                         th:alt="${'user-avatar-' + question.lastModifiedBy.id}">-->
+                            <!--                                </div>-->
+                            <!--                                <div class="user-details float-left small">-->
+                            <!--                                    <a th:href="${'/accounts/' + question.lastModifiedBy.id}"-->
+                            <!--                                       th:text="${question.lastModifiedBy.name}"></a>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
+                            <form th:action="@{/quesComment/{id}(id=${question.questionId})}" method="post">
+                                <!--        <input type="hidden" name="questionId" th:value="${question.questionId}">-->
+                                <div class="form-group">
+                                    <textarea class="form-control" name="content" cols="1" rows="1"></textarea>
+                                    <button class="btn bg-transparent"><a class="float-left"
+                                                                          th:href="@{/quesComment/{id}(id=${question.questionId})}">
+                                        <div class="comment text-muted small">
+                                            comment
+                                        </div>
+                                    </a></button>
+                                </div>
+                            </form>
+
+                            <section>
+                                <th:block th:each="quesComment : ${question.comments}">
+                                    <div th:if="${quesComment}!=null">
+                                        <p th:text="${quesComment.content}"></p>
+                                        <div th:if="${admin} or ${user}!=null and ${user.email}==${quesComment.email}">
+                                            <form th:action="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}"
+                                                  method="get">
+                                                <input type="hidden" name="questionId"
+                                                       th:value="${question.questionId}"/>
+                                                <button class="btn bg-transparent"><a class="float-left"
+                                                                                      th:href="@{'/quesComment/editQuesComment/'+${quesComment.commentId}}">
+                                                    <div class="edit-comment text-muted small">
+                                                        edit comment
+                                                    </div>
+                                                </a></button>
+                                            </form>
+                                            <form th:action="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}"
+                                                  method="get">
+                                                <input type="hidden" name="questionId"
+                                                       th:value="${question.questionId}"/>
+                                                <button class="btn bg-transparent"><a class="float-left"
+                                                                                      th:href="@{'/quesComment/deleteQuesComment/'+${quesComment.commentId}}">
+                                                    <div class="delete-comment text-muted small">
+                                                        delete comment
+                                                    </div>
+                                                </a></button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div th:if="${editComment}!=null and ${editComment.commentId}==${quesComment.commentId}">
+                                        <form th:action="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}"
+                                              method="post">
+                                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                            <br/>
+                                            <input type="text" name="content" th:value="${quesComment.content}"
+                                                   placeholder="add your Comment..."/>
+                                            <br/>
+                                            <button class="btn bg-transparent"><a class="float-left"
+                                                                                  th:href="@{'/quesComment/updateQuesComment/'+${quesComment.commentId}}}">
+                                                <div class="update-comment text-muted small">
+                                                    update comment
+                                                </div>
+                                            </a></button>
+                                        </form>
+                                    </div>
+                                </th:block>
+                            </section>
+
                         </div>
                     </div>
-
-                    <div th:if="${answer}!=null">
-                        <div class="answers-header border-bottom mb-3">
-                            <div class="mb-2 h5 text-muted">
-                                <h3>Answers</h3>
-                            </div>
+                    <div class="answers-header border-bottom mb-3">
+                        <div class="mb-2 h5 text-muted">
+                            <h3>Answers</h3>
                         </div>
+                    </div>
+                    <th:block th:each="answer:${question.answers}">
+                        <div th:if="${answer}!=null">
 
-                        <div th:each="answer:${question.answers}">
                             <div class="answer d-flex mb-3 border-bottom pb-3">
 
+
+                                <!--                                <div>-->
+                                <!--                                    <form th:action="@{'/answerUpvote/'+${answer.answerId}}" method="post">-->
+                                <!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
+                                <!--                                        <button type="submit" class="btn " style="background-color:transparent;">-->
+                                <!--                                            <span class="fa fa-arrow-up"></span>-->
+                                <!--                                        </button>-->
+                                <!--                                    </form>-->
+                                <!--                                    <div style="padding-left: 15px">-->
+                                <!--                                        <span>[[${answer.getRating()}]]</span>-->
+                                <!--                                    </div>-->
+                                <!--                                    <form th:action="@{'/answerDownvote/'+${answer.answerId}}" method="post">-->
+                                <!--                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>-->
+                                <!--                                        <button type="submit" class="btn " style="background-color:transparent;">-->
+                                <!--                                            <span class="fa fa-arrow-down"></span>-->
+                                <!--                                        </button>-->
+                                <!--                                    </form>-->
+                                <!--                                </div>-->
+
+
                                 <div class="vote text-center mr-3">
-                                    <a th:href="@{'/answerUpvote/'+${answer.answerId}}">
-                                        <div class="vote-up"></div>
-                                    </a>
+                                    <form th:action="@{'/answerUpvote/'+${answer.answerId}}" method="post">
+                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                        <button class="btn bg-transparent">
+                                            <a th:href="@{'/answerUpvote/'+${answer.answerId}}">
+                                                <div class="vote-up"></div>
+                                            </a>
+                                        </button>
+                                    </form>
                                     <div class="vote-count my-3">
                                         <span class="answer_rating text-muted h5 font-weight-bold">
                                             [[${answer.getRating()}]]
                                         </span>
                                     </div>
-                                    <a th:href="@{'/answerDownvote/'+${answer.answerId}}">
-                                        <div class="vote-down"></div>
-                                    </a>
+                                    <form th:action="@{'/answerDownvote/'+${answer.answerId}}" method="post">
+                                        <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                        <button class="btn bg-transparent">
+                                            <a th:href="@{'/answerDownvote/'+${answer.answerId}}">
+                                                <div class="vote-down"></div>
+                                            </a>
+                                        </button>
+                                    </form>
                                 </div>
 
                                 <div class="answer-content w-100">
                                     <div class="answer-body" th:text="${answer.content}"></div>
                                     <div th:if="${admin} or ${user}!=null and ${user.userId}==${answer.author.userId}">
-                                        <a class="float-left" th:href="@{'/updateAnswer/'+${answer.answerId}}">
-                                            <div class="edit-answer text-muted small">
-                                                improve this answer
-                                            </div>
-                                        </a>
-                                        <a class="float-left" th:href="@{'/deleteAnswer/'+${answer.answerId}}">
-                                            <div class="delete-question text-muted small">
-                                                delete answer
-                                            </div>
-                                        </a>
+
+                                        <form th:action="@{'/updateAnswer/'+${answer.answerId}}" method="get">
+                                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                            <button class="btn bg-transparent"><a class="float-left"
+                                                                                  th:href="@{'/updateAnswer/'+${answer.answerId}}">
+                                                <div class="edit-answer text-muted small">
+                                                    improve this answer
+                                                </div>
+                                            </a>
+                                            </button>
+                                        </form>
+                                        <form th:action="@{'/deleteAnswer/'+${answer.answerId}}" method="get">
+                                            <input type="hidden" name="questionId" th:value="${question.questionId}"/>
+                                            <button class="btn bg-transparent"><a class="float-left"
+                                                                                  th:href="@{'/deleteAnswer/'+${answer.answerId}}">
+                                                <div class="delete-question text-muted small">
+                                                    delete answer
+                                                </div>
+                                            </a>
+                                            </button>
+                                        </form>
                                     </div>
                                     <div class="user-info float-right w-25">
-                                        <div class="text-muted small user-action-time"
-                                             th:text="'answered ' + ${answer.getFormattedDate(answer.createdDate, 'd MMM yy hh:mm')}">
-                                        </div>
+                                        <!--                                        <div class="text-muted small user-action-time"-->
+                                        <!--                                             th:text="'answered ' + ${answer.getFormattedDate(answer.createdDate, 'd MMM yy hh:mm')}">-->
+                                        <!--                                        </div>-->
                                         <div th:if="${answer.author.avatar}"
                                              class="user-gravatar gravatar-32 float-left mr-2">
                                             <img th:src="@{'data:image/jpeg;base64,' + ${answer.author.avatar.data}}"
                                                  th:alt="${'user-avatar-' + answer.author.id}">
                                         </div>
                                         <div class="user-details float-left small">
-                                            <a th:href="${'/accounts/' + answer.author.id}"
+                                            <a th:href="${'/users/viewUser/' + answer.author.userId}"
                                                th:text="${answer.author.name}"></a>
                                         </div>
                                     </div>
@@ -184,31 +287,32 @@
                                     </div>
 
                                     <!--                                    <div th:if="${answer.createdDate != answer.lastModifiedDate}"-->
-<!--                                         class="user-info float-right w-25">-->
-<!--                                        <div class="text-muted small user-action-time"-->
-<!--                                             th:text="'edited ' + ${answer.getFormattedDate(answer.lastModifiedDate, 'd MMM yy hh:mm')}">-->
+                                    <!--                                         class="user-info float-right w-25">-->
+                                    <!--                                        <div class="text-muted small user-action-time"-->
+                                    <!--                                             th:text="'edited ' + ${answer.getFormattedDate(answer.lastModifiedDate, 'd MMM yy hh:mm')}">-->
 
-<!--                                        </div>-->
-<!--                                        <div th:if="${answer.lastModifiedBy.avatar}"-->
-<!--                                             class="user-gravatar gravatar-32 float-left mr-2">-->
-<!--                                            <img th:src="@{'data:image/jpeg;base64,' + ${answer.lastModifiedBy.avatar.data}}"-->
-<!--                                                 th:alt="${'user-avatar-' + answer.lastModifiedBy.id}">-->
-<!--                                        </div>-->
-<!--                                        <div class="user-details float-left small">-->
-<!--                                            <a th:href="${'/accounts/' + answer.lastModifiedBy.id}"-->
-<!--                                               th:text="${answer.lastModifiedBy.name}"></a>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <div th:if="${answer.lastModifiedBy.avatar}"-->
+                                    <!--                                             class="user-gravatar gravatar-32 float-left mr-2">-->
+                                    <!--                                            <img th:src="@{'data:image/jpeg;base64,' + ${answer.lastModifiedBy.avatar.data}}"-->
+                                    <!--                                                 th:alt="${'user-avatar-' + answer.lastModifiedBy.id}">-->
+                                    <!--                                        </div>-->
+                                    <!--                                        <div class="user-details float-left small">-->
+                                    <!--                                            <a th:href="${'/accounts/' + answer.lastModifiedBy.id}"-->
+                                    <!--                                               th:text="${answer.lastModifiedBy.name}"></a>-->
+                                    <!--                                        </div>-->
+                                    <!--                                    </div>-->
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </th:block>
                     <div th:if="${admin} or ${user}!=null">
-                        <form th:action="@{/postAnswer/{id}(id=${question.questionId})}"
-                              method="post" th:object="${answer}">
+                        <form th:action="@{/postAnswer/{id}(id=${question.questionId})}" method="post"
+                              th:object="${answer}">
                             <div class="form-group">
                                 <label for="answer-content">Your Answer</label>
-                                <textarea id="answer-content" class="form-control" name="content" cols="30" rows="10">
+                                <textarea id="answer-content" class="form-control" name="answerContent" cols="30"
+                                          rows="10">
 
                             </textarea>
                             </div>
@@ -223,8 +327,8 @@
         </div>
     </div>
 </main>
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 </body>
 </html>
