@@ -1,18 +1,14 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org"
+      lang="ru" class="h-100">
 <head>
     <meta charset="UTF-8">
-<!--    <meta name="viewport"-->
-<!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
-<!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
-    <title>New Question</title>
-    <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
-    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" th:href="@{/custom.css}">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>Stack Overflow Clone</title>
+    <link th:replace="~{fragments/styles}">
 </head>
 <body class="d-flex flex-column h-100">
 <header>
@@ -30,21 +26,22 @@
                     <div class="form-wrapper">
                         <form th:action="@{/postQuestion}" method="post" th:object="${question}">
                             <div class="form-group">
-                                <label for="question_title"><h4>Title</h4></label>
-                                <input id="question_title" type="text" name="title" th:field="*{title}"
-                                       placeholder="type your question here" class="form-control">
+                                <label for="question_title">Question title</label>
+                                <input id="question_title" type="text" th:field="*{title}"
+                                       name="title" class="form-control">
                             </div>
 
                             <div class="form-group">
-                                <label for="question_body"><h4>Body</h4></label>
-                                <textarea id="question_body" name="description" class="form-control"
+                                <label for="question_body">Question body</label>
+                                <textarea id="question_body" name="body" class="form-control"
                                           th:field="*{description}" rows="8" cols="12">
                                 </textarea>
                             </div>
                             <div class="form-group">
-                                <label for="question_tags"><h4>Tags</h4></label>
+                                <label for="question_tags">Question tags</label>
+
                                 <input id="question_tags" type="text" th:field="*{tag}"
-                                       name="tags" placeholder="assign tags related to title" class="form-control">
+                                       name="tags" class="form-control">
                             </div>
                             <div class="form-group">
                                 <input type="submit" name="submit" value="Post Question"
@@ -52,13 +49,14 @@
                             </div>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
 </main>
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 </body>
 </html>

@@ -14,8 +14,8 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <form class="form-inline">
-            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline" style="margin-left:60px; width:100%;">
+            <input class="form-control mr-sm-1" type="search" placeholder="Search" aria-label="Search" style="width:840px;">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
         <ul class="navbar-nav mr-auto" sec:authorize="isAuthenticated()">
@@ -23,7 +23,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
                     <img src="https://w7.pngwing.com/pngs/639/1013/png-transparent-hamburger-button-computer-icons-drop-down-list-fast-food-menu-rectangle-share-icon-pancake.png"
-                         alt="dropdown" width="35px" height="35px"/>
+                         alt="dropdown" width="35px" height="35px" style="margin-top:20px;"/>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a sec:authorize="isAuthenticated()" href="/logout">Logout</a>

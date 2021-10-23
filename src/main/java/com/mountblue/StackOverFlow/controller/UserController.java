@@ -33,11 +33,6 @@ public class UserController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/")
-    public String homepage() {
-        System.out.println("Hi");
-        return "index";
-    }
 
     @GetMapping("/users")
     public String showAllUsers(Model model){

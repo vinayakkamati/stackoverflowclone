@@ -7,12 +7,13 @@
 <!--          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">-->
 <!--    <meta http-equiv="X-UA-Compatible" content="ie=edge">-->
     <title>Stack Overflow Clone</title>
-    <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
-    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
-    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" th:href="@{/custom.css}">
+<!--    <link rel="shortcut icon" href="https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico?v=ec617d715196">-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>-->
+<!--    <link rel="stylesheet" type="text/css" th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>-->
+<!--    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>-->
+<!--    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>-->
+<!--    <link rel="stylesheet" th:href="@{/custom.css}">-->
+    <link th:replace="~{fragments/styles}">
 </head>
 
 <body class="d-flex flex-column h-100">
@@ -24,7 +25,7 @@
 
 <main class="d-flex flex-column flex-grow-1">
     <div class="container-fluid d-flex flex-column flex-grow-1">
-        <div class="row d-flex flex-grow-1">
+        <div class="d-flex flex-row flex-grow-1">
             <div class="col-md-2 col-lg-2 offset-lg-1 d-none d-md-block pr-0">
                 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
             </div>
@@ -42,7 +43,7 @@
                                     <a class="mr-1 bg-light small rounded p-1 text-info" th:href="${'/tags/' + tag.id}"
                                        th:text="${tag.name}"></a>
                                 </div>
-                                <a th:href="@{/tags}" class="small text-info">more tags</a>
+<!--                                <a th:href="@{/tags}" class="small text-info">more tags</a>-->
                             </div>
                             <div class="btn-group float-right align-self-end" role="group">
                                 <button type="button"
@@ -111,9 +112,9 @@
     </div>
 </main>
 
-<footer class="footer">
-    <div th:replace="~{fragments/footer :: footer}"></div>
-</footer>
+<!--<footer class="footer">-->
+<!--    <div th:replace="~{fragments/footer :: footer}"></div>-->
+<!--</footer>-->
 
 </body>
 </html>
