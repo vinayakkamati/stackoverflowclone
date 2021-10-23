@@ -30,7 +30,7 @@
                 <div th:replace="~{fragments/sidebar :: sidebar}"></div>
             </div>
             <div class="col-md-10 col-lg-8 col-xl-7 bg-white border p-0 h-auto">
-                <div class="content" style="width: 1000px; height: 800px">
+                <div class="content" style="width:100%">
                     <div class="content-header mt-4 mx-4" >
                         <div class="section-title mb-3">
                             <div class="h3 font-weight-normal">Users</div>
@@ -46,7 +46,7 @@
                         <br> <br>
                         <div class="user-browser m-4">
                             <div class="d-flex flex-wrap">
-                                <div class="d-inline-block w-25 mb-4" th:each="user : ${users}" >
+                                <div class="d-inline-block w-25 mb-3" th:each="user : ${users}" >
                                     <div class="user-gravatar gravatar-50 float-left">
                                         <img src="https://www.gravatar.com/avatar/4b152262d9ba55197f609625358ff7e0?s=96&d=identicon&r=PG"
                                              height="48" width="48" alt="avatar">
