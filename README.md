@@ -31,6 +31,11 @@ Note : Make sure you have Java 8 installed into your system
 
 **Step 5:** Check the Application is running At http://localhost:8080/
 
+## Contributors
+1. Vinayak Kamati
+2. Pranay Srivastav
+3. Adity Kumar
+
 ## :books: Reflection
 
 This was a 3 week long project built during my training period at Mountblue Technolgies. Project goals included using technologies learned up until this point and familiarizing myself with documentation for new features.
