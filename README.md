@@ -2,15 +2,17 @@
 
 Stack Overflow is a question & answer website for professionals and programmers. It features questions and answers on a wide range of topics in computer programming.
 
-  
   ## Features Implemented:
+1. Create/Read/Update/Delete Questions/Answers/Comments/Account
+2. Upload avatar
+3. Vote for Questions/Answers.
+4. Sorting Questions by votes, active, newest.
+5. Filter by No answers, No accepted answer.
+6. View tags, users.
   
 ## :movie_camera: Demo
 
-
-
-https://user-images.githubusercontent.com/119689320/221432082-ebb08b34-dfbc-4102-b5ec-eb8f1f675609.mp4
-
+https://user-images.githubusercontent.com/119689320/221546261-f620016e-d6e8-4727-9fe7-b016458352c2.mp4
 
 
 ## 👨🏻‍💻 Installation and Setup Instructions
@@ -33,4 +35,4 @@ Note : Make sure you have Java 8 installed into your system
 
 This was a 3 week long project built during my training period at Mountblue Technolgies. Project goals included using technologies learned up until this point and familiarizing myself with documentation for new features.
 
-The technologies implemented in this project are Java, Spring Boot, Hibernate, MySQL, JPA, Thymeleaf.
+The technologies implemented in this project are Java, Spring Boot, Hibernate, MySQL, JPA, Thymeleaf, Bootstarp.
